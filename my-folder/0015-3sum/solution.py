@@ -23,17 +23,6 @@ class Solution(object):
                     else:
                         high-=1
         return(output_list)
-                        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         """
         set1 = set(nums)
