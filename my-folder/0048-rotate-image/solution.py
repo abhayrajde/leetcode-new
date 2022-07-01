@@ -1,31 +1,18 @@
 class Solution(object):
     def rotate(self, matrix):
-        # FOR THIS SUM WE WILL TAKE THE APPROACH OF TRANSPOSE AND REVERSE
-        # FIRST WE WILL DO THE TRANSPOSE OF THE MATRIX
-        # THEN SECOND STEP WOULD BE DOING THE REVERSE OF ALL THE ROWS OF THE MATRIX
-        list1 = []
-        # STEP 1 : TRANSPOSE
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                
-                temp = [i,j]
-                if(temp not in list1):
-                # temp = matrix[i][j]
-                # matrix[i][j] = matrix[j][i]
-                # matrix[j][i] = temp
-                    matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-                
-                
-                
-                temp1 = [i,j]
-                temp2 = [j,i]
-                if(temp1 not in list1):
-                    list1.append(temp1)
-                    list1.append(temp2)
-        # STEP 2 : REVERSE OF THE EACH ROWS IN THE MATRIX
-        for i in range(len(matrix)):
-            matrix[i].reverse()
-            
+        #STEP 1: TRANSPOSE OF THE MATRIX
+        transposed = set()
+        for r in range(len(matrix)):
+            for c in range(len(matrix[0])):
+                if((r,c) not in transposed):
+                    matrix[r][c],matrix[c][r] = matrix[c][r],matrix[r][c]
+                    # transpose.add((r,c))
+                    transposed.add((c,r))
+        
+        #STEP 2: REVERSE THE MATRIX
+        for r in matrix:
+            r.reverse()
+        # matrix.reverse()
         
         """
         :type matrix: List[List[int]]
