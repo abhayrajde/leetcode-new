@@ -1,22 +1,19 @@
 class Solution(object):
     def maxSubArray(self, nums):
-        
-#         if(len(nums)==1):
-#             op = nums[0]
-#             return(op)
-#         else: 
-            
-        
         max1 = nums[0]
-        sum1 = 0
-        
-        for i in nums:
-            sum1+=i
-            if(sum1>max1):
-                max1 = sum1
-            if(sum1 < 0):
-                sum1 = 0
-        return (max1)
+        left, right = 0,0
+        currsum = 0
+        while(right<len(nums)):
+            
+            currsum+=nums[right]
+            max1 = max(max1, currsum)
+            
+            if(currsum < 0):
+                left = right+1
+                currsum = 0
+            
+            right = right+1
+        return(max1)
         """
         :type nums: List[int]
         :rtype: int
