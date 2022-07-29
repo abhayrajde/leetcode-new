@@ -10,18 +10,6 @@ class Solution(object):
             return(-1)
         else:
             return(dp[0])
-                    
-        # matrix=[[[0]*amount]*len(coins)]
-        # for i in range(len(matrix)):
-        #     for j in range(len(matrtix[0])):
-        #         if(j>=coin[i]):
-        #             matrix[i][j] = min(matrix[i-1][j],matrix[i][j-coin[i]])
-        #         else:
-        #             matrix[i][j] = matrix[i-1][j]
-                    
-            
-                    
-        
         """
         :type coins: List[int]
         :type amount: int
