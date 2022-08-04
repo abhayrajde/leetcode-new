@@ -6,21 +6,25 @@
 #         self.right = right
 class Solution(object):
     def rightSideView(self, root):
+        if not root:
+            return []
+        
+        q = deque([root])
         res = []
-        q = deque()
-        if(root):
-            q.append(root)
-        while(q):
+        while q:
+            qlen = len(q)-1
             for i in range(len(q)):
                 curr = q.popleft()
-                val = curr.val
+                
+                # Logic to add the right most element in result
+                if(i == qlen):
+                    res.append(curr.val)
+                    
                 if(curr.left):
                     q.append(curr.left)
                 if(curr.right):
                     q.append(curr.right)
-            res.append(val)
         return(res)
-        
         """
         :type root: TreeNode
         :rtype: List[int]
