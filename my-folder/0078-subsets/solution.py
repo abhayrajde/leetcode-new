@@ -2,20 +2,21 @@ class Solution(object):
     def subsets(self, nums):
         res = []
         
-        curr = []
-        def dfs(i):
-            if(i>=len(nums)):
-                res.append(copy.copy(curr))
+        subset = []
+        def backtrack(curr):
+            if(curr>=len(nums)):
+                res.append(subset[:])
                 return
             
-            curr.append(nums[i])
-            dfs(i+1)
+            subset.append(nums[curr])
+            backtrack(curr + 1)
             
-            curr.pop()
-            dfs(i+1)
-        
-        dfs(0)
+            subset.pop()
+            backtrack(curr+1)
+        backtrack(0)
         return(res)
+            
+            
             
         """
         :type nums: List[int]
