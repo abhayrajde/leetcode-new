@@ -1,18 +1,22 @@
 class Solution(object):
     def combinationSum(self, candidates, target):
         res = []
-        def dfs(i,cur,total):
-            if(total == target):
-                res.append(copy.deepcopy(cur))
+        
+        tot = []
+        def backtrack(curr):
+            if(sum(tot) == target):
+                res.append(tot[:])
                 return
             
-            if(i>=len(candidates) or total>target):
+            if(curr>=len(candidates) or sum(tot)>target):
                 return
-            cur.append(candidates[i])
-            dfs(i,cur,total+candidates[i])
-            cur.pop()
-            dfs(i+1, cur, total)
-        dfs(0,[],0)
+                
+            tot.append(candidates[curr])
+            backtrack(curr)
+            
+            tot.pop()
+            backtrack(curr+1)
+        backtrack(0)
         return(res)
         """
         :type candidates: List[int]
