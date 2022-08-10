@@ -1,65 +1,29 @@
 class Solution(object):
     def exist(self, board, word):
-        i,j = len(board),len(board[0])
-        visited = set()
-        # count = 0
-        def dfs(i,j,count):
+        path = set()
+        
+        rows, cols = len(board), len(board[0])
+        def backtrack(i,r,c):
+            if(i == len(word)):
+                return True
+            if((r,c) in path or r< 0 or c < 0 or r >=rows or c >= cols or board[r][c] != word[i]):
+                return False
             
-            if(count == len(word)):
-                return(True)
+            path.add((r,c))
             
-            if((i>=len(board)) or (j>= len(board[0])) or (i < 0) or (j<0) or ((i,j) in visited) 
-               or (word[count] != board[i][j])):
-                return(False)
+            res = (backtrack(i+1,r+1,c) or backtrack(i+1,r,c+1) or backtrack(i+1,r-1,c) or backtrack(i+1,r,c-1))
             
-            # count+=1
-            visited.add((i,j))
-            res = (dfs(i+1,j,count+1) or dfs(i-1,j,count+1) or dfs(i,j+1,count+1) or dfs(i,j-1,count+1))
-            visited.remove((i,j))
+            path.remove((r,c))
             return(res)
         
-        for k in range(len(board)):
-            for l in range(len(board[0])):
-                if(dfs(k,l,0)):
-                    return(True)
-        return(False)
-            
-        """
-        i,j = len(board),len(board[0])
-        res = False
-        visited = set()
-        count = 0
-        def dfs(i,j,str):
-            
-            if(str == word):
-                res = True
-                return
-            
-            if(i >= len(board) or j >= len(board[0])): 
-                return
-            
-            visited.append([i,j])
-            if(board[i][j] == word[count]):
-                str+=board[i][j]
-                if(board[i+1][j] == word[count+1] and i+1<=len(board)-1 and ([i+1,j] not in visited)):
-                    count+=1
-                    dfs(i+1,j,str)
-                elif(board[i-1][j] == word[count+1] and i-1>=0 and ([i-1,j] not in visited)):
-                    count+=1
-                    dfs(i-1,j,str)
-                elif(board[i][j+1] == word[count+1] and j+1<=len(board[0]) and ([i,j+1] not in visited)):
-                    count+=1
-                    dfs(i,j+1,str)
-                elif(board[i][j-1] == word[count+1] and j-1>=0 and ([i,j-1] not in visited)):
-                    count+=1
-                    dfs(i,j-1,str)
-                count-=1
-        """
+        for r in range(rows):
+            for c in range(cols):
+                if(board[r][c] == word[0] and backtrack(0,r,c)):
+                    return True
+        return False
                 
+        
             
-            
-            
-                
         """
         :type board: List[List[str]]
         :type word: str
