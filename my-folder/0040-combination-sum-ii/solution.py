@@ -1,29 +1,26 @@
 class Solution(object):
     def combinationSum2(self, candidates, target):
         res = []
-        self.target = target
+        
+        subset = []
         candidates.sort()
-        self.dfs(candidates, [], res)
+        
+        def backtrack(curr, subset, total):
+            # subset.append(nums[curr])
+            if(total == target):
+                res.append(subset)
+                return
+            
+            if(curr==len(candidates) or total > target):
+                return
+            
+            backtrack(curr+1,subset+[candidates[curr]], total+candidates[curr])
+            
+            while(curr+1<len(candidates) and candidates[curr] == candidates[curr+1]):
+                curr+=1
+            backtrack(curr+1, subset, total)
+        backtrack(0,subset,0)
         return(res)
-        
-    def dfs(self, candidates, curr, res):
-        for i in range(len(candidates)):
-            
-            if(i > 0 and candidates[i] == candidates[i-1]):
-                continue
-            
-            if(sum(curr)+candidates[i] == self.target):
-                curr.append(candidates[i])
-                res.append(curr)
-                return
-            
-            if(sum(curr) + candidates[i] < self.target):
-                self.dfs(candidates[i+1:], curr+[candidates[i]], res)
-            
-            else:
-                return
-        
-        
         """
         :type candidates: List[int]
         :type target: int
