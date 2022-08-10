@@ -1,18 +1,23 @@
 class Solution(object):
     def subsetsWithDup(self, nums):
         res = []
-        nums.sort()
-        self.dfs(nums,[],res)
-        return res
         
-    def dfs(self, nums, curr, res):
-        res.append(curr)
-        for i in range(len(nums)):
-            if(i>0 and nums[i] == nums[i-1]):
-                continue
-            self.dfs(nums[i+1:],curr+[nums[i]], res)
+        nums.sort()
+        subset = []
+        def backtrack(curr, subset):
+            if(curr>=len(nums)):
+                res.append(subset[:])
+                return
+            
+            backtrack(curr + 1, subset + [nums[curr]])
+            while curr < len(nums) - 1 and nums[curr] == nums[curr + 1]:
+                curr += 1
+            backtrack(curr + 1, subset)
+        
+        backtrack(0, [])
+        return res
+            
         """
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        
