@@ -6,37 +6,16 @@
 #         self.right = right
 class Solution(object):
     def isValidBST(self, root):
-        def valid(node,left,right):
-            if(not node):
-                return(True)
-            if not(node.val > left and node.val < right):
-                return(False)
+        def dfs(node, left, right):
+            if not node:
+                return True
+            if((left>=node.val) or (right<=node.val)):
+                return False
             
-            return(valid(node.left,left,node.val) and valid(node.right,node.val,right))
-        return(valid(root,float("-inf"),float("inf")))
-        
-        
-        """
-        # Wrong approach this is only checking the particular node only..
-        if(not root):
-            return(True)
-        
-        q = deque([root])
-        while(q):
-            curr = q.popleft()
-            if(curr.left):
-                if(curr.left.val<curr.val):
-                    q.append(curr.left)
-                else:
-                    return(False)
+            return(dfs(node.left,left,node.val) and dfs(node.right,node.val,right))
+        return(dfs(root,-float("inf"),float("inf")))
             
-            if(curr.right):
-                if(curr.right.val>curr.val):
-                    q.append(curr.right)
-                else:
-                    return(False)
-        return(True)
-        """
+            
         """
         :type root: TreeNode
         :rtype: bool
