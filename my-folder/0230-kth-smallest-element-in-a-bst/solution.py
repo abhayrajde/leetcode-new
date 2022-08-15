@@ -6,53 +6,20 @@
 #         self.right = right
 class Solution(object):
     def kthSmallest(self, root, k):
-        self.ans=0
-        self.k=k
-        self.dfs(root)
-        return self.ans
+        ans = [root.val]
+        self.k = k
         
-        
-    def dfs(self,root):
-        if not root:
-            return None
-        self.dfs(root.left)
-        self.k-=1
-        if self.k==0:
-            self.ans=root.val
-        self.dfs(root.right)
-        
-        """
-        # Iterative Way
-        stack = deque([root])
-        node = root
-        count = 0
-        arr = []
-        while(stack):
-            while(node):
-                stack.append(node)
-                node = node.left
-            temp = stack.pop()
-            count+=1
-            if(count == k):
-                return(temp.val)
-            arr.append(temp.val)
-            node = temp.right
+        def dfs(node):
+            if not node:
+                return None
+            dfs(node.left)
+            self.k-=1
+            if(self.k == 0):
+                ans[0] = node.val
+            dfs(node.right)
+        dfs(root)
+        return(ans[0])
             
-        """
-        
-        """# Recusrive Way
-        self.dfs(root,arr)
-        return arr[k-1]
-        
-        
-    def dfs(self,root,arr):
-        if(not root):
-            return None
-        self.dfs(root.left,arr)
-        arr.append(root.val)
-        self.dfs(root.right,arr)
-        return"""
-        
         """
         :type root: TreeNode
         :type k: int
