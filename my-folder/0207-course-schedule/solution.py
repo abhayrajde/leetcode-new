@@ -1,34 +1,31 @@
 class Solution(object):
     def canFinish(self, numCourses, prerequisites):
-        premap = {}
         
-        for i in range(numCourses):
-            premap[i] = []
+        prereq = {c:[] for c in range(numCourses)}
         
         for crs, pre in prerequisites:
-            premap[crs].append(pre)
+            prereq[crs].append(pre)
         
         visited = set()
+        cycle = set()
         def dfs(crs):
+            if(crs in cycle):
+                return False
             if(crs in visited):
-                return(False)
+                return True
             
-            if(premap[crs] == []):
-                return(True)
-            
+            cycle.add(crs)
+            for pre in prereq[crs]:
+                if(dfs(pre)==False):
+                    return False
+            cycle.remove(crs)
             visited.add(crs)
-            for pre in premap[crs]:
-                if(not dfs(pre)):
-                    return(False)
-            visited.remove(crs)
-            premap[crs] = []
-            return(True)
-        for crs in range(numCourses):
-            if(not dfs(crs)): 
-                return(False)
-        return(True)
-                
+            return True
         
+        for crs in range(numCourses):
+            if(dfs(crs) == False):
+                return False
+        return True
         """
         :type numCourses: int
         :type prerequisites: List[List[int]]
