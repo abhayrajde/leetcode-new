@@ -1,17 +1,16 @@
 class Solution(object):
-    def groupAnagrams(self, strs):  
+    def groupAnagrams(self, strs):
         hm = {}
         for i in range(len(strs)):
-            temp = str(sorted(strs[i]))
-            if(temp in hm):
-                hm[temp].append(strs[i])
-            else:
-                hm[temp] = [strs[i]]
-        op = []
-        for i in (hm.values()):
-            op.append(i)
-        return(op)
+            word = str(sorted(strs[i]))
+            if(word not in hm):
+                hm[word] = []
+            hm[word].append(strs[i])
             
+        res = []
+        for lists in hm.values():
+            res.append(lists)
+        return res
             
         """
         :type strs: List[str]
