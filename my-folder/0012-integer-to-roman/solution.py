@@ -10,8 +10,7 @@ class Solution(object):
                 num -= num_list[i]
             else:
                 i-=1
-        return(op)
-        
+        return op
         """
         :type num: int
         :rtype: str
