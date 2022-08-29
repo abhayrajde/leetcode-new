@@ -22,8 +22,6 @@ class Solution(object):
                     return True
         return False
                 
-        
-            
         """
         :type board: List[List[str]]
         :type word: str
