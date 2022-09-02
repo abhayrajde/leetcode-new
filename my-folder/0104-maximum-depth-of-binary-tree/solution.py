@@ -6,48 +6,16 @@
 #         self.right = right
 class Solution(object):
     def maxDepth(self, root):
-        """
-        # Recursive DFS solution for the given problem
-        if not root:
-            return (0)
-        return(1+max(self.maxDepth(root.left),self.maxDepth(root.right)))
-        """
-        
-        """
-        # BFS solution
-        if (not root):
-            return(0)
-        
-        levels = 0
-        q = deque([root])
-        while(q):
-            for i in range(len(q)):
-                curr = q.popleft()
-                if(curr.left):
-                    q.append(curr.left)
-                if(curr.right):
-                    q.append(curr.right)
-            levels += 1
-        return(levels)
-        """
-        
-        # Iterative DFS Solution
-        if(not root):
-            return(0)
-        
-        stack = [[root, 1]]
-        res = 1
-        while(stack):
-            node, height = stack.pop(0)
-            
-            if(node):
-                res = max(res,height)
-                stack.append([node.left, height+1])
-                stack.append([node.right,height+1])
-        return(res)
-                
-        
-        
+        res = [0]
+        def dfs(node,currlength):
+            if not node:
+                return
+            currlength+=1
+            res[0] = max(res[0],currlength)
+            dfs(node.left, currlength)
+            dfs(node.right, currlength)
+        dfs(root,0)
+        return res[0]
         """
         :type root: TreeNode
         :rtype: int
