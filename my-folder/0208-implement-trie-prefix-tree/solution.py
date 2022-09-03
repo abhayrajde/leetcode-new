@@ -7,16 +7,16 @@ class Trie(object):
 
     def __init__(self):
         self.root = TrieNode()
-
+        
     def insert(self, word):
         curr = self.root
         
-        for i in word:
-            if(i not in curr.children):
-                curr.children[i] = TrieNode()
-            curr = curr.children[i]
+        for c in word:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
         curr.endofword = True
-        
+            
         """
         :type word: str
         :rtype: None
@@ -26,12 +26,11 @@ class Trie(object):
     def search(self, word):
         curr = self.root
         
-        for i in word:
-            if(i not in curr.children):
-                return(False)
-            curr = curr.children[i]
-        return(curr.endofword)
-    
+        for c in word:
+            if c not in curr.children:
+                return False
+            curr = curr.children[c]
+        return curr.endofword
         
         """
         :type word: str
@@ -40,14 +39,14 @@ class Trie(object):
         
 
     def startsWith(self, prefix):
+        
         curr = self.root
         
-        for i in prefix:
-            if(i not in curr.children):
-                return(False)
-            curr = curr.children[i]
-        return(True)
-        
+        for c in prefix:
+            if c not in curr.children:
+                return False
+            curr = curr.children[c]
+        return True
         """
         :type prefix: str
         :rtype: bool
