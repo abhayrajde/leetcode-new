@@ -6,22 +6,24 @@
 #         self.right = right
 class Solution(object):
     def goodNodes(self, root):
-        
-        def dfs(node, maxval):
+        if not root:return -1
+        # maxval = [root.val]
+        goodcount = [0]
+        def dfs(node,maxval):
             if not node:
-                return 0
+                return
             
             if(node.val >= maxval):
-                maxval = node.val
-                res = 1
-            else:
-                res = 0
-            res += dfs(node.left,maxval)
-            res += dfs(node.right,maxval)
-            return res
-        return(dfs(root,root.val))
-        
-                
+                goodcount[0]+=1
+                maxval = max(maxval,node.val)
+            
+            dfs(node.left,maxval)
+            dfs(node.right,maxval)
+            
+        dfs(root,root.val)
+        return goodcount[0]
+            
+            
         """
         :type root: TreeNode
         :rtype: int
