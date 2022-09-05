@@ -1,27 +1,32 @@
 class Solution(object):
     def exist(self, board, word):
-        path = set()
+        # res = False
         
-        rows, cols = len(board), len(board[0])
-        def backtrack(i,r,c):
+        rows = len(board)
+        cols = len(board[0])
+        
+        visited = set()
+        
+        def backtrack(r,c,i):
             if(i == len(word)):
                 return True
-            if((r,c) in path or r< 0 or c < 0 or r >=rows or c >= cols or board[r][c] != word[i]):
+            
+            if(r<0 or c<0 or r>=rows or c>=cols or (r,c) in visited or board[r][c]!=word[i]):
                 return False
             
-            path.add((r,c))
+            visited.add((r,c))
             
-            res = (backtrack(i+1,r+1,c) or backtrack(i+1,r,c+1) or backtrack(i+1,r-1,c) or backtrack(i+1,r,c-1))
+            res = (backtrack(r-1,c,i+1) or backtrack(r+1,c,i+1) or backtrack(r,c-1,i+1) or backtrack(r,c+1,i+1))
             
-            path.remove((r,c))
-            return(res)
-        
+            visited.remove((r,c))
+            return res
         for r in range(rows):
             for c in range(cols):
-                if(board[r][c] == word[0] and backtrack(0,r,c)):
+                if board[r][c] == word[0] and backtrack(r,c,0):
                     return True
         return False
-                
+    
+                    
         """
         :type board: List[List[str]]
         :type word: str
