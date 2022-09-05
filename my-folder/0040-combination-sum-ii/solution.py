@@ -1,26 +1,29 @@
 class Solution(object):
     def combinationSum2(self, candidates, target):
         res = []
-        
-        subset = []
         candidates.sort()
         
-        def backtrack(curr, subset, total):
-            # subset.append(nums[curr])
-            if(total == target):
-                res.append(subset)
+        curr = []
+        def backtrack(ind):
+            if (sum(curr) == target):
+                res.append(curr[:])
                 return
             
-            if(curr==len(candidates) or total > target):
+            if(ind>=len(candidates) or sum(curr)>target):
                 return
             
-            backtrack(curr+1,subset+[candidates[curr]], total+candidates[curr])
+            curr.append(candidates[ind])
             
-            while(curr+1<len(candidates) and candidates[curr] == candidates[curr+1]):
-                curr+=1
-            backtrack(curr+1, subset, total)
-        backtrack(0,subset,0)
-        return(res)
+            backtrack(ind+1)
+            
+            while(ind<len(candidates)-1 and candidates[ind] == candidates[ind+1]):
+                ind+=1
+            
+            curr.pop()
+            
+            backtrack(ind+1)
+        backtrack(0)
+        return res
         """
         :type candidates: List[int]
         :type target: int
