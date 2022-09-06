@@ -26,7 +26,6 @@ class Solution(object):
             head = head.next
             curr = curr.next
         return res
-        
             
         """
         :type head: Optional[ListNode]
