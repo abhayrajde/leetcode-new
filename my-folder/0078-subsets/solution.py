@@ -1,23 +1,28 @@
+# Pick - Not Pick Logic
+# create one dfs/recursion function which takes i. current position ii. current subset
+    # if the current position is greater than len(nums):
+        # append current subset to the result
+        #return
+    #recursively call PICK
+    # recursively call NOT PICK
+    
 class Solution(object):
     def subsets(self, nums):
-        res = []
+        # Base Condition
+        if not nums:
+            return []
         
-        subset = []
-        def backtrack(curr):
-            if(curr>=len(nums)):
-                res.append(subset[:])
+        res = []
+        curr = []
+        def dfs(i,curr):
+            if i >= len(nums):
+                res.append(curr[:])
                 return
             
-            subset.append(nums[curr])
-            backtrack(curr + 1)
-            
-            subset.pop()
-            backtrack(curr+1)
-        backtrack(0)
-        return(res)
-            
-            
-            
+            pick = dfs(i+1,curr + [nums[i]])
+            not_pick = dfs(i+1,curr)
+        dfs(0,[])
+        return res
         """
         :type nums: List[int]
         :rtype: List[List[int]]
