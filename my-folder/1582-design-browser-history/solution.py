@@ -7,7 +7,6 @@ class BrowserHistory(object):
         """
         :type homepage: str
         """
-        
 
     def visit(self, url):
         self.history.append(url)
@@ -46,3 +45,16 @@ class BrowserHistory(object):
 # obj.visit(url)
 # param_2 = obj.back(steps)
 # param_3 = obj.forward(steps)
+
+# import random
+# parti = set()
+# def addParticipant(self, participant):
+#     parti.append(paarticipant)
+
+    
+# def removeParticipant(self,participant):
+#     parti.remove(participant)
+    
+    
+# def getRandomParticipant(self):
+#     return random.choice(parti)
