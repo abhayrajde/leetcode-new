@@ -4,6 +4,7 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import defaultdict
 class Solution(object):
     def verticalOrder(self, root):
         if not root: return
@@ -18,9 +19,9 @@ class Solution(object):
             if not node:
                 return
             
-            values[v_dist].append((h_dist,node.val))
+            values[h_dist].append((v_dist,node.val))
             
-            left = dfs(node.left, h_dist+1, v_dist-1, values)
+            left = dfs(node.left, h_dist-1, v_dist+1, values)
             right = dfs(node.right, h_dist+1, v_dist+1, values)
             
         dfs(root, 0, 0, values)
@@ -30,7 +31,7 @@ class Solution(object):
         for key,value in values:
             temp1 = sorted(value, key = lambda x:x[0])
             temp2 = []
-            for h_dist,val in temp1:
+            for v_dist,val in temp1:
                 temp2.append(val)
             res.append(temp2)
         return res
