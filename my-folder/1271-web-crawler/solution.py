@@ -50,10 +50,6 @@ class Solution(object):
 #                     res.append(i)
 #                     visited.add(i)
 #         return res
-            
-        
-    
-            
         """
         :type startUrl: str
         :type htmlParser: HtmlParser
