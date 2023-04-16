@@ -6,7 +6,6 @@
 #         self.right = right
 class Solution(object):
     def invertTree(self, root):
-        
         def dfs(node):
             if not node:
                 return
