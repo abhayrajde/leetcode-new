@@ -9,11 +9,11 @@ class Solution(object):
         res = [0]
         def dfs(node,currlength):
             if not node:
-                return
+                return 
             currlength+=1
             res[0] = max(res[0],currlength)
-            dfs(node.left, currlength)
-            dfs(node.right, currlength)
+            dfs(node.left,currlength)
+            dfs(node.right,currlength)
         dfs(root,0)
         return res[0]
         """
