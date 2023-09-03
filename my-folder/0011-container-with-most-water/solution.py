@@ -1,30 +1,26 @@
 class Solution(object):
     def maxArea(self, height):
-        start = 0
-        end = len(height)-1
-        max1 = 0
-        while(start<end):
-            temp = (end-start) * min(height[start],height[end])
-            if(temp>max1):
-                max1 = temp
-            if(height[start]>=height[end]):
-                end-=1
+        # Two-Pointer - T.C: O(N)
+        result = 0
+        i = 0
+        j = len(height)-1
+        while(i<j):
+            current_area = (j-i) * min(height[i],height[j])
+            result = max(current_area,result)
+            
+            if(height[i]<=height[j]):
+                i+=1
             else:
-                start+=1
-        return(max1)
-        # i = 0
-        # j = len(height)-1
-        # area = []
-        # count = len(height) - 1
-        # while(i != j):
-        #     area.append(min(height[i],height[j])*count)
-        #     if(height[i]<height[j]):
-        #         i+=1
-        #     else:
-        #         j-=1
-        #     count-=1
-        # return(max(area))
+                j-=1
+        return(result)
         
+        # #Brute-Force - Time Complexity: O(N^2)
+        # result = 0
+        # for i in range(len(height)-1):
+        #     for j in range(i+1, len(height)):
+        #         current_area = (j-i)*min(height[i],height[j])
+        #         result = max(current_area,result)
+        # return result
         """
         :type height: List[int]
         :rtype: int
