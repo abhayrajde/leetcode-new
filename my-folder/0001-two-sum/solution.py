@@ -4,10 +4,9 @@ class Solution(object):
         #Time C - O(N)
         #Space C - O(N)
         hm = {}
-        
         for i in range(len(nums)):
-            if((target-nums[i]) in hm):
-                return(i,hm[target-nums[i]])
+            if (target - nums[i] in hm):
+                return(i,hm[target - nums[i]])
             else:
                 hm[nums[i]] = i
         
