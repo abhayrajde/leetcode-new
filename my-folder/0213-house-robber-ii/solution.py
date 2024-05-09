@@ -1,58 +1,80 @@
 class Solution(object):
-    
-    # Tabulation Technique - Dynamic Programming
     def rob(self, nums):
-        if len(nums) == 1:
-            return nums[0]
-        
-        def dp_tab(nums):
-            dp = [0]*len(nums)
 
-            for i in range(len(nums)):
-                pick = nums[i]
+        # Recursion Solution
+        def rec(ind, numList):
+            # Base Cases
+            if(ind == 0):
+                return numList[0]
+            
+            if(ind < 0):
+                return 0
+            
+            pick = numList[ind] + rec(ind-2, numList)
+            non_pick = 0 + rec(ind-1, numList)
 
-                if i>1:
-                    pick += dp[i-2]
-                not_pick = 0
-                if i > 0:
-                    not_pick += dp[i-1]
+            return max(pick, non_pick)
 
-                dp[i] = max(pick,not_pick)
+        # DP: Memoization Approach (Top-Down Approach)
+        def dpmem(ind,numList):
+            # Base Cases
+            if(ind == 0):
+                return numList[0]
 
-            return(dp[-1])
-        keep_first = dp_tab(nums[:-1])
-        keep_last = dp_tab(nums[1:])
-        return max(keep_first,keep_last)
-    
-    # Memoization Technique - Dynamic Programming
-    def rob(self, nums):
-        if len(nums) == 1:
-            return nums[0]
-        
-        def dp_mem(nums):
-            dp = [-1]*len(nums)
+            if(ind < 0):
+                return 0
 
-
-            def func(ind):
-                if ind >= len(nums):
-                    return 0
-
-                if dp[ind] != -1:
-                    return dp[ind]
-
-                pick = nums[ind] + func(ind+2)
-
-                not_pick = 0 + func(ind + 1)
-
-                dp[ind] = max(pick, not_pick)
-
+            if(dp[ind] != -1):
                 return dp[ind]
-            res = func(0)
-            return res
+
+            pick = numList[ind] + dpmem(ind - 2, numList)
+            notPick = 0 + dpmem(ind - 1, numList)
+
+            dp[ind] = max(pick,notPick)
+            return dp[ind]
+
+        # DP: Tabulation Approach (Bottom-Up Approach)
+        def dptab(ind, numList):
+            # Base Case
+            dp[0] = numList[0]
+            neg = 0
+
+            for i in range(1, len(numList)):
+                pick = numList[i]
+                if(i-2 > -1):
+                    pick += dp[i-2]
+                notPick = 0 + dp[i-1]
+                dp[i] = max(pick, notPick)
+            return dp[ind]
+
+        # DP: Tabulation Approach -> Space Optimization (Bottom-Up Approach)
+        def dptabso(ind, numList):
+            # Base Case
+            prev = numList[0]
+            prev2 = 0
+
+            for i in range(1, len(numList)):
+                pick = numList[i]
+                if(i-2 > -1):
+                    pick += prev2
+                notPick = 0 + prev
+                curi = max(pick, notPick)
+                prev2 = prev
+                prev = curi
+            return prev
+
+        # Driver Code
+        ind = len(nums)-2
+        if(ind < 0):
+            return nums[0]
+
+        dp = [-1]*(len(nums)-1)
+        excludeFirst = dptabso(ind,nums[1:])
         
-        keep_first = dp_mem(nums[:-1])
-        keep_last = dp_mem(nums[1:])
-        return max(keep_first,keep_last)
+        dp = [-1]*(len(nums)-1)
+        excludeLast = dptabso(ind,nums[:len(nums)-1])
+        
+        return max(excludeFirst, excludeLast)
         """
         :type nums: List[int]
         :rtype: int
