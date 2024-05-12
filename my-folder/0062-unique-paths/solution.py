@@ -1,38 +1,62 @@
 class Solution(object):
     def uniquePaths(self, m, n):
-        
-        dp = [[0]*n for i in range(m)]
-        
-        for r in range(m):
-            for c in range(n):
-                if r == 0 or c == 0:
-                    dp[r][c] = 1
-                else:
-                    dp[r][c] = dp[r-1][c] + dp[r][c-1]
-        return dp[m-1][n-1]
-#         q = deque()
-#         q.append((0,0))
-#         visited = set((0,0))
-#         count = 0
-#         while (q):
-#             for i in range(len(q)):
-#                 currm, currn = q.popleft()
-                
-#                 if(currm == m-1 and currn == n-1):
-#                     return c
-#                 #Down
-#                 if(currm+1 < m and (currm+1, currn) not in visited):
-#                     q.append((currm+1,currn))
-#                     visited.add((currm+1,currn))
-#                     count+=1
-                
-#                 #RIGHT
-#                 if(currn+1 < n and (currm, currn+1) not in visited):
-#                     q.append((currm,currn+1))
-#                     visited.add((currm,currn+1))
-#                     count+=1
-#         return count
-        
+        # DP: Tabulation Approach
+        dp = [[0]*n for i in range (m)]
+        def dptab():
+            for i in range(m):
+                for j in range(n):
+                    # Base Case
+                    if (i == 0 and j == 0):
+                        dp[i][j] = 1
+                    else:
+                        up = left = 0
+                        if (j > 0):
+                            up = dp[i][j-1]
+                        if (i > 0):
+                            left = dp[i-1][j]
+                        dp[i][j] = up + left
+            return(dp[m-1][n-1])    
+        return dptab()
+
+        # DP: Memoization Approach
+        # dp = [[-1]*n for i in range(m)]
+        def dpmem(i,j):
+            # i -> row, j -> column
+            # Step 1: Base Cases
+            if (i == 0 and j == 0):
+                return 1
+            if(i < 0 or j < 0):
+                return 0
+            if(dp[i][j] != -1):
+                return(dp[i][j])
+
+            # Step 2: Explore by the rules
+            up = dpmem(i-1,j)
+            left = dpmem(i,j-1)
+
+            #Step 3: Add all the solutions
+            dp[i][j] = up + left
+            return (dp[i][j])
+        # return dpmem(m-1,n-1)
+
+        # Recursion Solution
+        def recursion(i,j):
+            # i -> row, j -> column
+            # Step 1: Base Cases
+            if (i == 0 and j == 0):
+                return 1
+            if(i < 0 or j < 0):
+                return 0
+
+            # Step 2: Explore by the rules
+            up = recursion(i-1,j)
+            left = recursion(i,j-1)
+
+            #Step 3: Add all the solutions
+            return (up + left)
+        # return (recursion(m-1,n-1))
+
+
         """
         :type m: int
         :type n: int
