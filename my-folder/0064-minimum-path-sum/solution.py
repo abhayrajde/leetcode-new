@@ -1,56 +1,66 @@
+import sys
 class Solution(object):
     def minPathSum(self, grid):
-        
-        rows = len(grid)
-        cols = len(grid[0])
-        
-        #Tabulation
-        
-#         dp = [[0]*cols]*rows
-        
-#         for r in range(rows):
-#             for c in range(cols):
-#                 if r == 0 and c == 0:
-#                     dp[r][c] = grid[r][c]
-#                 else:
-#                     if r-1 >= 0:
-#                         up = grid[r][c] + dp[r-1][c]
-#                     else:
-#                         up = float("inf")
-#                     if c-1 >= 0:
-#                         left = grid[r][c] + dp[r][c-1]
-#                     else:
-#                         left = float("inf")
 
-#                     dp[r][c] = min(left,up)
-#         return dp[rows-1][cols-1]
-        
-        #Memoization
-        # dp = [[-1]*cols]*rows
-        dp = [[-1 for x in range(cols)] for y in range(rows)]
-        def dfs(i,j,dp):
-            # print(dp)
-            #Base Conditions
-            if i == rows-1 and j == cols-1:
-                dp[i][j] = grid[i][j]
+        # Recursion Solution
+        def recursion(i,j):
+            # Step 1: Base Cases
+            if (i == 0 and j == 0):
                 return grid[i][j]
+            if (i < 0 or j < 0):
+                return sys.maxsize
             
-            if i >= rows  or j >= cols:
-                return float("inf")
-            
-            if dp[i][j] != -1:
+            # Step 2: Explore all paths and find minimum
+            cost = 0
+            up = grid[i][j] + recursion(i-1,j)
+            left = grid[i][j] + recursion(i,j-1)
+
+            # Step 3: Return minimum Path
+            cost += min(up,left)
+
+            return(cost)
+        # return(recursion(len(grid)-1, len(grid[0])-1))
+
+        # DP: Memoization Approach
+        dp = [[sys.maxsize]*len(grid[0]) for i in range(len(grid))]
+        def dpmem(i,j):
+            # Step 1: Base Cases
+            if (i == 0 and j == 0):
+                return grid[i][j]
+            if (i < 0 or j < 0):
+                return sys.maxsize
+            if(dp[i][j] != sys.maxsize):
                 return dp[i][j]
             
-            down = grid[i][j] + dfs(i+1,j,dp)
-            right = grid[i][j] + dfs(i,j+1,dp)
+            # Step 2: Explore all paths and find minimum
+            up = grid[i][j] + dpmem(i-1,j)
+            left = grid[i][j] + dpmem(i,j-1)
+
+            # Step 3: Return minimum Path
+            dp[i][j] = min(up,left)
+
+            return(dp[i][j])
+        # return(dpmem(len(grid)-1, len(grid[0])-1))
+
+        #DP: Tabulation Approach
+        dp = [[0]*len(grid[0]) for i in range(len(grid))]
+        def dptab():
+            # Base Cases
+            for i in range(len(grid)):
+                for j in range(len(grid[0])):
+                    if (i == 0 and j == 0):
+                        dp[i][j] = grid[i][j]
+                    else:
+                        up = left = sys.maxsize
+                        if(i > 0):
+                            up = grid[i][j] + dp[i-1][j]
+                        if(j > 0):
+                            left = grid[i][j] + dp[i][j-1]
+                        dp[i][j] = min(up,left)
+            return(dp[len(grid)-1][len(grid[0])-1])
+        return(dptab())
+
             
-            dp[i][j] = min(down, right)
-            
-            return dp[i][j]
-            
-        return dfs(0,0,dp)
-        print(dp)
-        
         """
         :type grid: List[List[int]]
         :rtype: int
