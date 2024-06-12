@@ -5,11 +5,10 @@ class Solution(object):
             if(nums[i] not in hm):
                 hm[nums[i]] = 1
             else:
-                return(True)
-            
-        return(False)
-    
-                
+                return True
+
+        return False
+
         """
         :type nums: List[int]
         :rtype: bool
