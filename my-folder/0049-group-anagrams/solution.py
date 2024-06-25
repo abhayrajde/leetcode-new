@@ -1,6 +1,5 @@
 class Solution(object):
     def groupAnagrams(self, strs):
-        
         hm = {}
         for i in range(len(strs)):
             temp = str(sorted(strs[i]))
@@ -11,7 +10,8 @@ class Solution(object):
         op = []
         for i in (hm.values()):
             op.append(i)
-        return(op)
+        return op
+
         """
         :type strs: List[str]
         :rtype: List[List[str]]
