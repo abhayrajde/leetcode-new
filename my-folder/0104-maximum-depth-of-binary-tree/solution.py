@@ -7,13 +7,13 @@
 class Solution(object):
     def maxDepth(self, root):
         res = [0]
-        def dfs(node,currlength):
+        def dfs(node,currLength):
             if not node:
-                return 
-            currlength+=1
-            res[0] = max(res[0],currlength)
-            dfs(node.left,currlength)
-            dfs(node.right,currlength)
+                return
+            currLength += 1
+            res[0] = max(res[0],currLength)
+            dfs(node.left, currLength)
+            dfs(node.right, currLength)
         dfs(root,0)
         return res[0]
         """
