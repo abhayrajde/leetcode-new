@@ -8,11 +8,9 @@ class Solution(object):
     def zigzagLevelOrder(self, root):
         if not root:
             return []
-        
-        q = deque([root])
-        reverse = False
         res = []
-        while(q):
+        q = deque([root])
+        while q:
             temp = []
             for i in range(len(q)):
                 curr = q.popleft()
@@ -21,14 +19,11 @@ class Solution(object):
                     q.append(curr.left)
                 if(curr.right):
                     q.append(curr.right)
-            if(reverse):
-                temp = temp[::-1]
-                res.append(temp)
-                reverse = False
-            else:
-                res.append(temp)
-                reverse = True
+            res.append(temp)
+        for i in range(1,len(res),2):
+            res[i] = reversed(res[i])
         return res
+
         """
         :type root: TreeNode
         :rtype: List[List[int]]
