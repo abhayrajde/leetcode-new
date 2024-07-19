@@ -11,26 +11,22 @@ class Node(object):
 class Solution(object):
     def connect(self, root):
         if not root:
-            return
+            return None
         
         q = deque([root])
-        res = []
         while(q):
-            qlen = len(q)-1
-            for i in range(len(q)):
+            length = len(q)
+            for i in range(length):
                 curr = q.popleft()
-                
-                # Logic for populating the last term with null
-                if(i != qlen):
+                if(i+1 < length):
                     curr.next = q[0]
                 else:
                     curr.next = None
-                    
                 if(curr.left):
                     q.append(curr.left)
                 if(curr.right):
                     q.append(curr.right)
-        return(root)
+        return root
         """
         :type root: Node
         :rtype: Node
