@@ -6,18 +6,18 @@
 #         self.right = right
 class Solution(object):
     def sumNumbers(self, root):
-        res = [0]
-        def dfs(node, curr):
+        nums = [0]
+        def dfs(node, currNum):
             if not node:
-                return
+                return 
+            temp = currNum + str(node.val)
             if(not node.left and not node.right):
-                res[0] += (curr*10)+node.val
-                
-            # curr = (curr*10)+node.val
-            dfs(node.left,(curr*10)+node.val)
-            dfs(node.right, (curr*10)+node.val)
-        dfs(root,0)
-        return res[0]
+                nums[0] += int(temp)
+            left = dfs(node.left, temp)
+            right = dfs(node.right, temp)
+        dfs(root, "")
+        return nums[0]
+
         """
         :type root: TreeNode
         :rtype: int
