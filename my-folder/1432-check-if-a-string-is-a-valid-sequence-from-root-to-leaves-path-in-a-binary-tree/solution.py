@@ -6,19 +6,18 @@
 #         self.right = right
 class Solution(object):
     def isValidSequence(self, root, arr):
-        def dfs(node, ind):
-            if not node or ind >= len(arr):
+        def dfs(node, count):
+            if not node or count >= len(arr):
                 return False
-            if arr[ind] != node.val:
+            if node.val != arr[count]:
                 return False
-            if ind == len(arr)-1 and not node.left and not node.right:
+            if not node.left and not node.right and count == len(arr)-1:
                 return True
-            left = dfs(node.left, ind+1)
-            right = dfs(node.right, ind+1)
+            left = dfs(node.left, count+1)
+            right = dfs(node.right, count+1)
             return left or right
         return dfs(root,0)
 
-            
         """
         :type root: TreeNode
         :type arr: List[int]
