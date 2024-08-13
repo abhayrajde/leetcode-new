@@ -2,28 +2,27 @@ class Solution(object):
     def combinationSum2(self, candidates, target):
         res = []
         candidates.sort()
-        
-        curr = []
-        def backtrack(ind):
-            if (sum(curr) == target):
+
+        def recursion(ind, curr, total):
+            if total == target:
                 res.append(curr[:])
                 return
-            
-            if(ind>=len(candidates) or sum(curr)>target):
+            if ind >= len(candidates) or total > target:
                 return
             
+            #Include
             curr.append(candidates[ind])
-            
-            backtrack(ind+1)
-            
-            while(ind<len(candidates)-1 and candidates[ind] == candidates[ind+1]):
-                ind+=1
-            
+            recursion(ind+1, curr, total + candidates[ind])
+
             curr.pop()
-            
-            backtrack(ind+1)
-        backtrack(0)
+            #Not Include
+            while(ind + 1 < len(candidates) and candidates[ind] == candidates[ind+1]):
+                ind += 1
+            recursion(ind+1, curr, total)
+        recursion(0,[],0)
         return res
+            
+            
         """
         :type candidates: List[int]
         :type target: int
