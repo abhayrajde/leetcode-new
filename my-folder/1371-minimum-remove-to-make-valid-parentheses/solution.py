@@ -1,24 +1,33 @@
-class Solution:
-    def minRemoveToMakeValid(self, s: str) -> str:
+class Solution(object):
+    def minRemoveToMakeValid(self, s):
         stack = []
-        remainder = 0
-        for c in s:
-            if c == '(':
-                remainder += 1
-                stack.append(c)
-            elif c == ')':
-                if remainder == 0: continue
-                remainder -= 1
-                stack.append(c)
+        list1 = []
+        k = 0
+        for i in range(len(s)):
+            if s[i] == "(":
+                list1.append(s[i])
+                stack.append((s[i], k))
+                k += 1
+
+            elif s[i] == ")":
+                if(stack):
+                    stack.pop()
+                    list1.append(s[i])
+                    k += 1
+            
             else:
-                stack.append(c)
+                list1.append(s[i])
+                k += 1
+        
+        for i in range(len(stack)):
+            temp = stack.pop()
+            list1.pop(temp[1])
 
-        output = ''
-        while stack:
-            cur = stack.pop()
-            if cur == '(' and remainder > 0:
-                remainder -= 1
-                continue
-            output += cur
-        return output[::-1]
+        res = "".join(list1)
+        return res
 
+        """
+        :type s: str
+        :rtype: str
+        """
+        
