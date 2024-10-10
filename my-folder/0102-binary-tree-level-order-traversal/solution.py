@@ -8,19 +8,18 @@ class Solution(object):
     def levelOrder(self, root):
         if not root:
             return []
-        
         res = []
         q = deque([root])
         while(q):
-            temp = []
-            for i in range(len(q)):
+            helperList = []
+            for _ in range(len(q)):
                 curr = q.popleft()
-                temp.append(curr.val)
+                helperList.append(curr.val)
                 if(curr.left):
                     q.append(curr.left)
                 if(curr.right):
                     q.append(curr.right)
-            res.append(temp)
+            res.append(helperList)
         return res
 
         """
