@@ -1,29 +1,24 @@
+class Solution:
+    def validWordAbbreviation(self, word: str, abbr: str) -> bool:
+        length = ""
+        for c in abbr:
+            if c.isnumeric():
+                if length == '' and c == '0': return False
+                length += c
+                continue
 
-class Solution(object):
-    def validWordAbbreviation(self, word, abbr):
-        wordPtr = abbrPtr = 0
-
-        while (wordPtr < len(word) and abbrPtr < len(abbr)):
-            if abbr[abbrPtr].isdigit():
-                steps = 0
-
-                if abbr[abbrPtr] == "0":
+            if length:
+                skipCount = int(length)
+                if len(word) < skipCount:
                     return False
-
-                while (abbrPtr < len(abbr) and abbr[abbrPtr].isdigit()):
-                    steps = steps * 10 + int(abbr[abbrPtr])
-                    abbrPtr += 1
-                wordPtr += steps
+                word = word[skipCount:]
+                length = ""
+            if word != '' and c == word[0]:
+                word = word[1:]
             else:
-                if word[wordPtr] != abbr[abbrPtr]:
-                    return False
+                return False
+        if length and length[0] == '0': return False
+        if length == '':
+            length = '0'
+        return length == '' or int(length) == len(word)
 
-                wordPtr += 1
-                abbrPtr += 1
-        return wordPtr == len(word) and abbrPtr == len(abbr)
-        """
-        :type word: str
-        :type abbr: str
-        :rtype: bool
-        """
-        
