@@ -1,74 +1,38 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import defaultdict
-class Solution(object):
-    def verticalOrder(self, root):
-        if not root: return
+class Solution:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root == None: return []
+        if root.left == None and root.right == None:
+            return [[root.val]]
+        def traverse(node, track, level, vLevel):
+            if node.left == None and node.right == None:
+                if level in track:
+                    track[level].append((node.val, vLevel))
+                else:
+                    track[level] = [(node.val, vLevel)]
+                return track
+            if node.left:
+                track = traverse(node.left, track, level - 1, vLevel + 1)
+            if level in track:
+                track[level].append((node.val, vLevel))
+            else:
+                track[level] = [(node.val, vLevel)]
+            if node.right:
+                track = traverse(node.right, track, level + 1, vLevel + 1)
+            return track
+        track = {}
+        traverse(root, track, 0, 0)
+        output = []
+        for key in sorted(dict(track.items())):
+            value = track[key]
+            output.append([x[0] for x in sorted(value, key=lambda x: x[1])])
+        return output
         
-        h_dist = 0
-        v_dist = 0
-        values = defaultdict(list)
-        res = []
-        
-        def dfs(node, h_dist, v_dist, values):
-            # Base Condition
-            if not node:
-                return
             
-            values[h_dist].append((v_dist,node.val))
-            
-            left = dfs(node.left, h_dist-1, v_dist+1, values)
-            right = dfs(node.right, h_dist+1, v_dist+1, values)
-            
-        dfs(root, 0, 0, values)
-        values = sorted(values.items(), key = lambda x:x[0])
-        print(values)
         
-        for key,value in values:
-            temp1 = sorted(value, key = lambda x:x[0])
-            temp2 = []
-            for v_dist,val in temp1:
-                temp2.append(val)
-            res.append(temp2)
-        return res
-        
-        
-        
-        
-        
-        
-#         if not root: return
-#         v_dist = 0
-#         h_dist = 0
-#         values = defaultdict(list)
-#         res = []
-        
-#         def dfs(node, h_dist, v_dist, values):
-#             if not node:
-#                 return
-            
-#             values[h_dist].append((v_dist,node.val))
-            
-#             dfs(node.left, h_dist-1, v_dist+1, values)
-#             dfs(node.right, h_dist+1, v_dist+1, values)
-        
-#         dfs(root,h_dist, v_dist, values)
-        
-#         for x in sorted(values.keys()):
-#         # for x in values.keys():
-#             column = []
-#             for i in sorted(values[x]):
-#             # for i in values[x]:
-#                 column.append(i[1])
-#             res.append(column)
-        
-#         return res
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
         
