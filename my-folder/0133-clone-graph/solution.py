@@ -8,21 +8,19 @@ class Node(object):
 
 class Solution(object):
     def cloneGraph(self, node):
-        if(not node):
-            return
+        if not node:
+            return 
         track = {}
-        
+
         def dfs(node):
-            if(node in track):
-                return(track[node])
-            
+            if node in track:
+                return track[node]
             copy = Node(node.val)
             track[node] = copy
             for nei in node.neighbors:
                 copy.neighbors.append(dfs(nei))
-            return(copy)
-        return dfs(node)
-        
+            return copy
+        return(dfs(node))
         """
         :type node: Node
         :rtype: Node
