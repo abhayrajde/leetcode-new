@@ -1,27 +1,32 @@
-class Solution(object):
-    def letterCombinations(self, digits):
-        if not digits:
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        if len(digits) == 0:
             return []
-        hm = {'2':"abc", '3':"def", '4':"ghi", '5':"jkl", '6':"mno", '7':"pqrs", '8':"tuv", '9':"wxyz"}
-        res = []
-        self.curr = ""
-        #23
-        def backtrack(nums):
-            if not nums:
-                res.append(self.curr[:])
+        mapping = {
+            "2": "abc",
+            "3": "def",
+            "4": "ghi",
+            "5": "jkl",
+            "6": "mno",
+            "7": "pqrs",
+            "8": "tuv",
+            "9": "wxyz"
+        }
+
+        def backtrack(path, index):
+            if len(path) == len(digits):
+                combinations.append("".join(path))
                 return
+
+            possible = mapping[digits[index]]
+            for l in possible:
+                path.append(l)
+                backtrack(path, index + 1)
+                path.pop()
             
-            for j in hm[nums[0]]:
-                self.curr+=j
-        
-                #some backtraking business performed here
-                backtrack(nums[1:])
-                
-                self.curr = self.curr[:-1]
-        backtrack(digits)
-        return(res)
-        """
-        :type digits: str
-        :rtype: List[str]
-        """
-        
+        combinations = []
+        backtrack([], 0)
+        return combinations
+
+            
+
