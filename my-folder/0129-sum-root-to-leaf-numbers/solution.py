@@ -1,25 +1,25 @@
 # Definition for a binary tree node.
-# class TreeNode:
+# class TreeNode(object):
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:
-    def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        if root.left == None and root.right == None:
-                return root.val
-
-        def traverse(node, s):
-            if node.left == None and node.right == None:
-                return s + str(node.val)
-            l = ''
-            if node.left:
-                l = traverse(node.left, s + str(node.val))
-            r = ''
-            if node.right:
-                r = traverse(node.right, s + str(node.val))
+class Solution(object):
+    def sumNumbers(self, root):
+        res = [0]
+        def dfs(node, s):
+            if not node:
+                return
+            if not node.left and not node.right:
+                res[0] += int(s+str(node.val))
+            dfs(node.left, s+str(node.val))
+            dfs(node.right, s+str(node.val))
+        dfs(root,"")
+        return res[0]
             
-            return int('0' if l == '' else l) + int('0' if r == '' else r)
 
-
-        return traverse(root, '')
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
