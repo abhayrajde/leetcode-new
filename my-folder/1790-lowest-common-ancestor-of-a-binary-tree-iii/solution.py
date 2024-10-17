@@ -8,9 +8,9 @@ class Node:
         self.parent = None
 """
 
-class Solution:
-    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
-        ans = []
+class Solution(object):
+    def lowestCommonAncestor(self, p, q):
+        ans = set()
         cur_p = p
         cur_q = q
         while cur_p or cur_q:
@@ -19,10 +19,15 @@ class Solution:
             if cur_p:
                 if cur_p.val in ans:
                     return cur_p
-                ans.append(cur_p.val)
+                ans.add(cur_p.val)
                 cur_p = cur_p.parent
             if cur_q:
                 if cur_q.val in ans:
                     return cur_q
-                ans.append(cur_q.val)
+                ans.add(cur_q.val)
                 cur_q = cur_q.parent
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        
