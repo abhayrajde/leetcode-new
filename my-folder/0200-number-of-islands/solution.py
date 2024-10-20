@@ -1,36 +1,22 @@
-class Solution(object):
-    def numIslands(self, grid):
-        if not grid:
-            return 0
-        visited = set()
-        islands = 0
-        ROWS = len(grid)
-        COLS = len(grid[0])
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid: return 0
 
+        output = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1':
+                    self.dfs(grid, i, j)
+                    output += 1
+        return output
 
-        def dfs(r,c):
-            while(r >= 0 and r < ROWS and c >= 0 and c < COLS and 
-                (r,c) not in visited and grid[r][c] == "1"):
-                visited.add((r,c))
-                dfs(r+1,c)
-                dfs(r-1,c)
-                dfs(r,c+1)
-                dfs(r,c-1)
-
-
-        for r in range(ROWS):
-            for c in range(COLS):
-                if(grid[r][c] == "1" and (r,c) not in visited):
-                    dfs(r,c)
-                    islands += 1
-        return islands
-
-
-                    
-                    
-
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
+    def dfs(self, grid, r, c):
+        if (r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0]) or grid[r][c] != '1'):
+            return
         
+        grid[r][c] = '0'
+
+        self.dfs(grid, r - 1, c)
+        self.dfs(grid, r + 1, c)
+        self.dfs(grid, r, c - 1)
+        self.dfs(grid, r, c + 1)
