@@ -1,28 +1,29 @@
 """
 # Definition for a Node.
-class Node(object):
+class Node:
     def __init__(self, val = 0, neighbors = None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 """
 
-class Solution(object):
-    def cloneGraph(self, node):
+from typing import Optional
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node:
-            return 
-        track = {}
+            return node
+        cache = {}
 
-        def dfs(node):
-            if node in track:
-                return track[node]
-            copy = Node(node.val)
-            track[node] = copy
-            for nei in node.neighbors:
-                copy.neighbors.append(dfs(nei))
-            return copy
-        return(dfs(node))
-        """
-        :type node: Node
-        :rtype: Node
-        """
-        
+        def traverse(n):
+            if not n:
+                return n
+            if n.val in cache:
+                return cache[n.val]
+            cache[n.val] = Node(n.val, [])
+            
+            if n.neighbors:
+                for child in n.neighbors:
+                    cache[n.val].neighbors.append(traverse(child))
+            return cache[n.val]
+
+        traverse(node)
+        return cache[1]
