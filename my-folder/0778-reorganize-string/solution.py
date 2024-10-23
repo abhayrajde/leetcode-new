@@ -1,40 +1,32 @@
-class Solution(object):
-    def reorganizeString(self, s):
-        hm = collections.defaultdict(int)
-        
-        for i in s:
-            hm[i]+=1
-            
-        heap = [(-value,letter) for letter, value in hm.items()]
-        
-        heapq.heapify(heap)
-        
-        res = []
-        
-        while(len(heap)>=2):
-            
-            top_count, top_letter = heapq.heappop(heap)
-            next_count, next_letter = heapq.heappop(heap)
-            
-            res.append(top_letter)
-            res.append(next_letter)
-            
-            if(top_count + 1):
-                heapq.heappush(heap, (top_count+1, top_letter))
-            
-            if(next_count + 1):
-                heapq.heappush(heap, (next_count+1, next_letter))
-            
-        if heap:
-            top_count, top_letter = heapq.heappop(heap)
-            
-            if top_count != -1 or (res and top_letter == res[-1]):
-                return ""
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counter = {}
+        max_count, letter = 0, ''
+
+        for c in s:
+            if c in counter:
+                counter[c] += 1
             else:
-                res.append(top_letter)
-        return "".join(res)
-        """
-        :type s: str
-        :rtype: str
-        """
+                counter[c] = 1
+            if counter[c] > max_count:
+                max_count = counter[c]
+                letter = c
+            if max_count > (len(s) + 1) // 2: return ''
         
+        if len(counter) == len(s): return s
+
+        output = [''] * len(s)
+        i = 0
+        while counter[letter] != 0:
+            output[i] = letter
+            i += 2
+            counter[letter] -= 1
+        
+        for c, count in counter.items():
+            while count > 0:
+                if i >= len(s):
+                    i = 1
+                output[i] = c
+                i += 2
+                count -= 1
+        return ''.join(output)
