@@ -1,19 +1,12 @@
-class Solution(object):
-    def mergeAlternately(self, word1, word2):
-        word1Len = len(word1)
-        word2Len = len(word2)
-        maxLen = max(word1Len, word2Len)
-        outputString = ""
-        for i in range (maxLen):
-            if(i < word1Len):
-                outputString += word1[i]
-            if(i < word2Len):
-                outputString += word2[i]
-        return outputString
-            
-        """
-        :type word1: str
-        :type word2: str
-        :rtype: str
-        """
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+        output = ''
+        i = 0
+        while i < max(len(word1), len(word2)):
+            if i < len(word1):
+                output += word1[i]
+            if i < len(word2):
+                output += word2[i]
+            i += 1
         
+        return output
