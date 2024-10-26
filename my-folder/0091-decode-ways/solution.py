@@ -1,21 +1,14 @@
-class Solution(object):
-    def numDecodings(self, s):
-        #TOP DOWN Approach
-        dp = {len(s):1}
-        
-        def dfs(i):
-            if(i in dp):
-                return(dp[i])
-            if(s[i] == "0"):
-                return(0)
-            res = dfs(i+1)
-            if(i+1<len(s) and (s[i]=="1" or (s[i]=="2" and s[i+1] in "0123456"))):
-                res+=dfs(i+2)
-            dp[i] = res
-            return(res)
-        return(dfs(0))
-        """
-        :type s: str
-        :rtype: int
-        """
-        
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        @lru_cache(maxsize=None)
+        def traverse(i):
+            if i == len(s): return 1
+            if s[i] == '0': return 0
+            if i == len(s) - 1: return 1
+
+            res = traverse(i + 1)
+            if int(s[i:i+2]) <= 26:
+                res += traverse(i+2)
+            return res
+
+        return traverse(0)
