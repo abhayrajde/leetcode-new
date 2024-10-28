@@ -1,16 +1,14 @@
-class Solution(object):
-    def maxProfit(self, prices):
-        minBuy = prices[0]
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        buy = prices[0]
+        sell = -1
+        highest = 0
 
-        maxProfit = 0
-        for i in range(1, len(prices)):
-            profit = prices[i] - minBuy
-            maxProfit = max(profit, maxProfit)
-
-            minBuy = min(minBuy, prices[i])
-        return maxProfit
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
-        
+        for price in prices[1:]:
+            if price < buy:
+                sell = -1
+                buy = price
+            else:
+                sell = max(sell, price)
+                highest = max(sell - buy, highest)
+        return highest
