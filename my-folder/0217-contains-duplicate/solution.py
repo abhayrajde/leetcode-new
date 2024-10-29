@@ -1,16 +1,10 @@
-class Solution(object):
-    def containsDuplicate(self, nums):
-        hm = {}
-        for i in range(len(nums)):
-            if(nums[i] not in hm):
-                hm[nums[i]] = 1
-            else:
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        cache = {}
+
+        for n in nums:
+            if n in cache:
                 return True
+            cache[n] = True
 
         return False
-
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
-        
