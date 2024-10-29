@@ -1,7 +1,8 @@
 import random
 class Solution:
-    nums = []
-    weighted_indexes = []
+    # generate prefix sum array
+    # generate random between 1 and total
+    # binary search on prefix sum array
     def __init__(self, w: List[int]):
         self.prefix_sums = []
         total = 0
