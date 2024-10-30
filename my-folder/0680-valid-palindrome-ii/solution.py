@@ -1,24 +1,14 @@
-class Solution(object):
-    def validPalindrome(self, s):
-        l = 0
-        r = len(s) - 1
-        while l < r:
-            if s[l] != s[r]:
-                # Case 1: Skip the left element
-                skipl = s[l+1: r+1]
-                if skipl == skipl[::-1]:
-                    return True
-                # Case 2: Skip the right element
-                skipr = s[l:r]
-                if skipr == skipr[::-1]:
-                    return True
-                return False
-            else:
-                l += 1
-                r -= 1
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        # two pointer
+        # when they don't match, remove ith and check it is palindrom (do same for jth)
+        i = 0
+        j = len(s) - 1
+        while i <= j:
+            if s[i] != s[j]:
+                s1 = s[:i] + s[i+1:]
+                s2 = s[:j] + s[j+1:]
+                return s1==s1[::-1] or s2==s2[::-1]
+            i += 1
+            j -= 1
         return True
-        """
-        :type s: str
-        :rtype: bool
-        """
-        
