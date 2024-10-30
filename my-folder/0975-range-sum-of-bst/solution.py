@@ -6,7 +6,7 @@
 #         self.right = right
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
-
+        # normal DFS and keep total if val in range
         def traverse(node):
             nonlocal total
             if not node: return
