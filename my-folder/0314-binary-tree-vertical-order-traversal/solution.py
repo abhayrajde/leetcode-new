@@ -1,35 +1,34 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution(object):
-    def verticalOrder(self, root):
-        dict1 = defaultdict(list)
-        h_dist, v_dist = 0, 0
+class Solution:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        # map column and node in hashmap
+        # keep track of min-column and max-column values
+        # loop between min-column and max-column to return result
+        if root is None:
+            return []
 
-        def dfs(node, h_dist, v_dist):
-            if not node:
-                return
-            dict1[h_dist].append((node.val, v_dist))
+        columnTable = defaultdict(list)
+        min_column = max_column = 0
+        queue = deque([(root, 0)])
 
-            left = dfs(node.left, h_dist - 1, v_dist + 1)
-            right = dfs(node.right, h_dist + 1, v_dist + 1)
+        while queue:
+            node, column = queue.popleft()
+
+            if node is not None:
+                columnTable[column].append(node.val)
+                min_column = min(min_column, column)
+                max_column = max(max_column, column)
+
+                queue.append((node.left, column - 1))
+                queue.append((node.right, column + 1))
+
+        return [columnTable[x] for x in range(min_column, max_column + 1)]
+        
             
-        dfs(root,0,0)
-        pairs = sorted(dict1.items())
-
-        result = []
-        for key, values in pairs:
-            sortedValues = sorted(values, key = lambda x:x[1])
-            temp = []
-            for i in sortedValues:
-                temp.append(i[0])
-            result.append(temp)
-        return result
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
+        
         
