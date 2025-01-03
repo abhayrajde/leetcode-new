@@ -16,7 +16,6 @@ class Solution(object):
                 curr = curr.right
             else:
                 return curr
-        # return
         """
         :type root: TreeNode
         :type p: TreeNode
