@@ -1,15 +1,20 @@
-class Solution:
-    def longestCommonPrefix(self, strs: List[str]) -> str:
-        if not strs:
-            return ''
-        if len(strs) == 1:
-            return strs[0]
-        i = 0
-        while True:
-            for s in strs:
-                if s == '': return ''
-                if i >= len(s): return strs[0][:i]
-                if s[i] != strs[0][i]:
-                    return strs[0][:i]
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        strLengthList = []
+        for i in range(len(strs)):
+            strLengthList.append((len(strs[i]), i))
+        strLengthList = sorted(strLengthList, key = lambda x: x[0])
+        element = strs[strLengthList[0][1]]
+        result = ""
+        for i in range(len(element)):
+            for j in range(len(strs)):
+                if strs[j][i] != element[i]:
+                    return result
+            result += element[i]
 
-            i += 1
+        return result
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        
