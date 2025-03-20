@@ -1,9 +1,13 @@
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        cache = {}
-    
+class Solution(object):
+    def twoSum(self, nums, target):
+        hm = {}
         for i in range(len(nums)):
-            n = nums[i]
-            if n in cache: return [i, cache[n]]
-            cache[target - n] = i
-
+            if target - nums[i] in hm:
+                return [i, hm[target-nums[i]]]
+            hm[nums[i]] = i
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        
