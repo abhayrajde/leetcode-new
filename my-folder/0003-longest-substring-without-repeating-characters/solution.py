@@ -1,19 +1,23 @@
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
-
-        unique_set = set()
-        repeat = 0
-        longest_unique_count = 0
+        uset = set()
+        maxCount = 0
+        count = 0
+        j = 0
         for i in range(len(s)):
-            while s[i] in unique_set:
-                unique_set.remove(s[repeat])
-                repeat += 1
-            unique_set.add(s[i])
-            longest_unique_count = max(longest_unique_count, i - repeat + 1)
-        return(longest_unique_count)
-            
-                
-                
+            if s[i] not in uset:
+                uset.add(s[i])
+                count += 1
+                maxCount = max(maxCount, count)
+            else:
+                while s[j] != s[i]:
+                    count -= 1
+                    uset.remove(s[j])
+                    j += 1
+                uset.remove(s[j])
+                uset.add(s[i])
+                j += 1
+        return maxCount
         """
         :type s: str
         :rtype: int
