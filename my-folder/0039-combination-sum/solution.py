@@ -1,22 +1,19 @@
 class Solution(object):
     def combinationSum(self, candidates, target):
         res = []
-        
-        subset = []
-        def backtrack(curr):
-            if sum(subset) == target:
-                res.append(subset[:])
+
+        def recursion(ind, currSum, curr):
+            if currSum == target:
+                res.append(curr[:])
                 return
+
+            if ind == len(candidates) or currSum > target:
+                return 
             
-            if(curr>=len(candidates) or sum(subset) > target):
-                return
-            
-            subset.append(candidates[curr])
-            backtrack(curr)
-            
-            subset.pop()
-            backtrack(curr+1)
-        backtrack(0)
+            pick = recursion(ind, currSum + candidates[ind], curr[:] + [candidates[ind]])
+            notPick = recursion(ind+1, currSum, curr[:])
+
+        recursion(0,0,[])
         return res
         """
         :type candidates: List[int]
