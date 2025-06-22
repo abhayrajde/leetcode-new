@@ -1,10 +1,13 @@
-class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
-        cache = {}
-
-        for n in nums:
-            if n in cache:
+class Solution(object):
+    def containsDuplicate(self, nums):
+        hs = set()
+        for i in nums:
+            if i in hs:
                 return True
-            cache[n] = True
-
+            hs.add(i)
         return False
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        
