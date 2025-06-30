@@ -1,22 +1,21 @@
 class Solution(object):
     def isAnagram(self, s, t):
-
-        if(len(s) != len(t)):
+        # base case
+        if len(s) != len(t):
             return False
 
-        hms = defaultdict(int)
-        hmt = defaultdict(int)
-
-        for i in s:
-            hms[i] += 1
+        hm1 = defaultdict(int)
+        hm2 = defaultdict(int)
         
-        for i in t:
-            hmt[i] += 1
-
-        for i in s:
-            if(i not in hmt or hms[i] != hmt[i]):
+        for i in range(len(s)):
+            hm1[s[i]] += 1
+            hm2[t[i]] += 1
+        
+        for i in hm1.keys():
+            if hm1[i] != hm2[i]:
                 return False
         return True
+
         """
         :type s: str
         :type t: str
