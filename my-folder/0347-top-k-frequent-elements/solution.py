@@ -1,28 +1,18 @@
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        if len(nums) == 1: return nums
-        cache = {}
-        maxF = 0
-        for n in nums:
-            if n in cache:
-                cache[n] += 1
-            else:
-                cache[n] = 1
-            if cache[n] > maxF:
-                    maxF = cache[n]
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        hm = defaultdict(int)
+        res = []
+        for i in range(len(nums)):
+            hm[nums[i]] += 1
+        temp = sorted(hm.items(), key = lambda x:x[1], reverse = True)
+        for i in range(k):
+            res.append(temp[i][0])
+        return res
+
         
-        freqs = {}
-        for n in cache:
-            f = cache[n]
-            if f in freqs:
-                freqs[f].append(n)
-            else:
-                freqs[f] = [n]
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
         
-        output = []
-        for i in range(maxF, 0, -1):
-            if i in freqs:
-                output.extend(freqs[i])
-            if len(output) == k:
-                break
-        return output
