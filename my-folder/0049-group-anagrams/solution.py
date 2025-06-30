@@ -1,15 +1,13 @@
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        group = {}
+class Solution(object):
+    def groupAnagrams(self, strs):
+        hm = defaultdict(list)
 
-        for s in strs:
-            indexes = [0] * 26
-            for c in s:
-                n = ord(c) - ord('a')
-                indexes[n] += 1
-            tup = tuple(indexes)
-            if tup in group:
-                group[tup].append(s)
-            else:
-                group[tup] = [s]
-        return list(group.values())
+        for i in range(len(strs)):
+            temp = "".join(sorted(strs[i]))
+            hm[temp].append(strs[i])
+        return (hm.values())
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        
