@@ -1,10 +1,12 @@
 class Solution(object):
     def twoSum(self, nums, target):
         hm = {}
+
         for i in range(len(nums)):
             if target - nums[i] in hm:
-                return [i, hm[target-nums[i]]]
+                return [i, hm[target - nums[i]]]
             hm[nums[i]] = i
+        
         """
         :type nums: List[int]
         :type target: int
