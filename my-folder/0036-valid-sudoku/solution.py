@@ -1,20 +1,22 @@
 class Solution(object):
     def isValidSudoku(self, board):
-        rowhm = defaultdict(set)
-        colhm = defaultdict(set)
-        cubehm = defaultdict(set)
+        cols = defaultdict(set)
+        rows = defaultdict(set)
+        squares = defaultdict(set)
 
-        for r in range(len(board)):
-            for c in range(len(board[0])):
-                if(board[r][c] != "."):
-                    x = r/3
-                    y = c/3
-                    if(board[r][c] in rowhm[r] or board[r][c] in colhm[c] or board[r][c] in cubehm[(x,y)]):
-                        return False
-                    rowhm[r].add(board[r][c])
-                    colhm[c].add(board[r][c])
-                    cubehm[(x,y)].add(board[r][c])         
+        for r in range (9):
+            for c in range (9):
+                if board[r][c] == ".":
+                    continue
+                if (board[r][c] in rows[r] or
+                    board[r][c] in cols[c] or
+                    board[r][c] in squares[(r // 3, c // 3)]):
+                    return False
+                rows[r].add(board[r][c])
+                cols[c].add(board[r][c])
+                squares[(r // 3, c // 3)].add(board[r][c])
         return True
+
         """
         :type board: List[List[str]]
         :rtype: bool
