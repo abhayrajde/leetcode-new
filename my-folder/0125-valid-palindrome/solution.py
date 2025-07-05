@@ -1,16 +1,18 @@
 class Solution(object):
     def isPalindrome(self, s):
-        str1 = ""
-        for i in s:
-            if i.isalnum():
-                str1 += i.lower()
-        i = 0
-        j = len(str1) - 1
-        while(i < j):
-            if(str1[i] != str1[j]):
+        newStr = ""
+
+        for c in s:
+            if c.isalnum():
+                newStr += c.lower()
+        
+        l = 0
+        r = len(newStr) - 1
+        while l <= r:
+            if newStr[l] != newStr[r]:
                 return False
-            i += 1
-            j -= 1
+            l += 1
+            r -= 1
         return True
         """
         :type s: str
