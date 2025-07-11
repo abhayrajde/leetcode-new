@@ -1,17 +1,25 @@
 class Solution(object):
     def characterReplacement(self, s, k):
-        frequency = collections.defaultdict(int)
-        startIndex = 0
-        maxCharFreq = 0
-        maxLength = 0
-        
-        for endIndex in range(len(s)):
-            frequency[s[endIndex]] += 1
-            maxCharFreq = max(maxCharFreq, frequency[s[endIndex]])
-            while ((endIndex - startIndex + 1) - maxCharFreq) > k:
-                frequency[s[startIndex]] -= 1
-                startIndex += 1
-            maxLength = max(maxLength, (endIndex - startIndex + 1))
+        count = defaultdict(int)
+        res = 0
+        l = 0
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r], 0)
             
-        return maxLength
+            while (r - l + 1) - max(count.values()) > k:
+                count[s[l]] -= 1
+                l += 1
+
+            res = max(res, r - l + 1)
+        return res
+
+
+
+
+
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
         
