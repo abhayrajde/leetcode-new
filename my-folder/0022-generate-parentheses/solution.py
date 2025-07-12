@@ -1,34 +1,26 @@
 class Solution(object):
     def generateParenthesis(self, n):
-        # only add open parenthesis if open < n
-        # only add closed parenthesis if closed < open
-        # only return the string as valid iff open == closed == n 
-        
+
         stack = []
         res = []
-        
-        def validback(openN, closeN):
-            if(openN == closeN == n):
-                temp = ""
-                for i in stack:
-                    temp+=i
-                res.append(temp)
+
+        def backtrack(openN, closedN):
+            if openN == closedN == n:
+                res.append("".join(stack))
                 return
             
-            if(openN < n):
-                stack.append("(")
-                validback(openN+1,closeN)
+            if openN < n:
+                stack.append('(')
+                backtrack(openN + 1, closedN)
+                stack.pop()
+
+            if closedN < openN:
+                stack.append(')')
+                backtrack(openN, closedN + 1)
                 stack.pop()
             
-            if(closeN < openN):
-                stack.append(")")
-                validback(openN, closeN+1)
-                stack.pop()
-        
-        validback(0,0)
-        return(res)
-            
-        
+        backtrack(0,0)
+        return res
         """
         :type n: int
         :rtype: List[str]
