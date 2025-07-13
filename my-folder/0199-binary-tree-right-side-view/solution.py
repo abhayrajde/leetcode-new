@@ -1,33 +1,53 @@
+# # Definition for a binary tree node.
+# # class TreeNode:
+# #     def __init__(self, val=0, left=None, right=None):
+# #         self.val = val
+# #         self.left = left
+# #         self.right = right
+# class Solution:
+#     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+#         # Base Case
+#         if not root:
+#             return []
+        
+#         res = []
+#         q = deque([root])
+#         while q:
+#             qLen = len(q)
+#             for i in range(qLen):
+#                 node = q.popleft()
+
+#                 if i == qLen - 1:
+#                     res.append(node.val)
+                
+#                 if node.left:
+#                     q.append(node.left)
+#                 if node.right:
+#                     q.append(node.right)
+#         return res
+        
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        # do BFS and create map of row and nodes
-        # return last node of each row from the map
-        if not root:
-            return []
-        cache = {}
-        q = [(root, 0)]
+        res = []
+        q = deque([root])
 
         while q:
-            node, row = q.pop(0)
-            if row in cache:
-                cache[row].append(node)
-            else:
-                cache[row] = [node]
-            if node.left:
-                q.append((node.left, row + 1))
-            if node.right:
-                q.append((node.right, row + 1))
-        
-        output = []
-        for row in cache:
-            nodes = cache[row]
-            output.append(nodes[-1].val)
+            rightSide = None
+            qLen = len(q)
 
-        return output
-
+            for i in range(qLen):
+                node = q.popleft()
+                if node:
+                    rightSide = node
+                    q.append(node.left)
+                    q.append(node.right)
+            if rightSide:
+                res.append(rightSide.val)
+        return res
