@@ -1,24 +1,19 @@
-class Solution(object):
-    def subsetsWithDup(self, nums):
-        # Base Condition
-        if not nums:
-            return []
-        
-        nums= sorted(nums)
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         res = []
-        def dfs(i, curr):
-            if i >= len(nums):
-                res.append(curr[:])
+
+        nums.sort()
+
+        def dfs(ind, subset):
+            if ind >= len(nums):
+                res.append(subset[:])
                 return
             
-            pick = dfs(i+1, curr+[nums[i]])
-            while(i < len(nums) - 1 and nums[i] == nums[i + 1]):
-                i = i+1
-            not_pick = dfs(i+1, curr)
+            pick = dfs(ind + 1, subset + [nums[ind]])
+            while ind+1 < len(nums) and nums[ind] == nums[ind+1]:
+                ind += 1
+            notPick = dfs(ind + 1, subset)
+
         dfs(0,[])
         return res
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
         
