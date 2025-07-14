@@ -1,37 +1,31 @@
-class Solution(object):
-    def exist(self, board, word):
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        ROWS = len(board)
+        COLS = len(board[0])
 
-        rows = len(board)
-        cols = len(board[0])
-        
         visited = set()
-        
-        #r,c is for position in the board matrix and i is for letter position in word
-        def backtrack(r,c,i):
+
+        def dfs(r, c, i):
+            # Base Cases
             if i == len(word):
                 return True
             
-            if(r < 0 or r >= rows or c < 0 or c >= cols or (r,c) in visited or board[r][c] != word[i]):
+            if r < 0 or r >= ROWS or c < 0 or c>= COLS or (r,c) in visited or board[r][c] != word[i]:
                 return False
-            
+
             visited.add((r,c))
-            
-            #TODO - business logic
-            # check left, up, right, down elements i board
-            res = (backtrack(r,c-1,i+1) or backtrack(r-1,c,i+1) or backtrack(r,c+1,i+1) or backtrack(r+1,c,i+1))
+            res = (dfs(r + 1, c, i + 1) or
+            dfs(r - 1, c, i + 1) or
+            dfs(r, c + 1, i + 1) or
+            dfs(r, c - 1, i + 1))
             
             visited.remove((r,c))
             return res
         
-        for r in range(rows):
-            for c in range(cols):
-                if board[r][c] == word[0] and backtrack(r,c,0):
-                    return True
+        for r in range(ROWS):
+            for c in range(COLS):
+                if dfs(r, c, 0): return True
         return False
+            
 
-        """
-        :type board: List[List[str]]
-        :type word: str
-        :rtype: bool
-        """
-        
+            
