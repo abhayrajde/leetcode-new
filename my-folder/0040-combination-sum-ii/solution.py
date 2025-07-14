@@ -1,31 +1,27 @@
-class Solution(object):
-    def combinationSum2(self, candidates, target):
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
         candidates.sort()
 
-        def recursion(ind, curr, total):
-            if total == target:
-                res.append(curr[:])
-                return
-            if ind >= len(candidates) or total > target:
+        def dfs(i, currSum, subset):
+            # Base Case
+            if currSum == target:
+                res.append(subset[:])
                 return
             
-            #Include
-            curr.append(candidates[ind])
-            recursion(ind+1, curr, total + candidates[ind])
+            if i >= len(candidates) or currSum > target:
+                return 
 
-            curr.pop()
-            #Not Include
-            while(ind + 1 < len(candidates) and candidates[ind] == candidates[ind+1]):
-                ind += 1
-            recursion(ind+1, curr, total)
-        recursion(0,[],0)
+            pick = dfs(i+1, currSum + candidates[i], subset + [candidates[i]])
+
+            while i + 1 < len(candidates) and candidates[i] == candidates[i+1]:
+                i += 1
+
+            notPick = dfs(i+1, currSum, subset)
+
+        dfs(0,0,[])
         return res
+
+
+
             
-            
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        
