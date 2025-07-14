@@ -1,21 +1,15 @@
-class Solution(object):
-    def subsets(self, nums):
-        # Base Condition:
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        # Base condition
         if not nums:
             return []
 
         res = []
-        curr = []
-        def dfs(i, curr):
-            if i >= len(nums):
-                res.append(curr[:])
+        def dfs(i, subset):
+            if  i >= len(nums):
+                res.append(subset[:])
                 return
-            pick = dfs(i+1, curr +[nums[i]])
-            not_pick = dfs(i+1, curr)
+            pick = dfs(i+1, subset + [nums[i]])
+            notPick = dfs(i+1, subset)
         dfs(0,[])
         return res
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        
