@@ -9,20 +9,16 @@ class Codec:
 
     def serialize(self, root):
         res = []
-        
-        node = root
+
         def dfs(node):
-            if(not node):
-                res.append("N")
+            if not node:
+                res.append('N')
                 return
-            
             res.append(str(node.val))
             dfs(node.left)
             dfs(node.right)
-        dfs(node)
-        return(",".join(res))
-        
-        
+        dfs(root)
+        return ",".join(res)
         """Encodes a tree to a single string.
         
         :type root: TreeNode
@@ -31,18 +27,21 @@ class Codec:
         
 
     def deserialize(self, data):
-        ip = data.split(",")
+        vals = data.split(',')
         self.i = 0
+
         def dfs():
-            if(ip[self.i] == "N"):
-                self.i+=1
-                return(None)
-            root = TreeNode(int(ip[self.i]))
-            self.i+=1
-            root.left = dfs()
-            root.right = dfs()
-            return (root)
+            if vals[self.i] == 'N':
+                self.i += 1
+                return
+            
+            node = TreeNode(int(vals[self.i]))
+            self.i += 1
+            node.left = dfs()
+            node.right = dfs()
+            return node
         return dfs()
+
         """Decodes your encoded data to tree.
         
         :type data: str
