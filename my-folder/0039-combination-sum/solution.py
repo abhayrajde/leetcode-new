@@ -1,23 +1,18 @@
-class Solution(object):
-    def combinationSum(self, candidates, target):
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
 
-        def recursion(ind, currSum, curr):
+        def dfs(i, currSum, subset):
             if currSum == target:
-                res.append(curr[:])
+                res.append(subset[:])
                 return
-
-            if ind == len(candidates) or currSum > target:
-                return 
             
-            pick = recursion(ind, currSum + candidates[ind], curr[:] + [candidates[ind]])
-            notPick = recursion(ind+1, currSum, curr[:])
+            if i >= len(candidates) or currSum > target:
+                return
+            
 
-        recursion(0,0,[])
+            pick = dfs(i, currSum + candidates[i], subset + [candidates[i]])
+            notPick = dfs(i+1, currSum, subset)
+        dfs(0,0,[])
         return res
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        
+
