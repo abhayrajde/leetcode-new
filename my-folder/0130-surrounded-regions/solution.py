@@ -1,42 +1,41 @@
-class Solution(object):
-    def solve(self, board):
-        rows = len(board)
-        cols = len(board[0])
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        ROWS, COLS = len(board), len(board[0])
+        visited = set()
+
+        #1. DFS: capture unsurrounded region (O => T)
         def dfs(r,c):
-            if (r >= 0 and r < rows and c >= 0 and c < cols 
-                and board[r][c] != "X" and board[r][c] != "T"):
-                board[r][c] = "T"
-                dfs(r+1,c)
-                dfs(r,c+1)
-                dfs(r-1,c)
-                dfs(r,c-1)
-
-        for r in range(rows):
-            if board[r][0] == "O":
-                dfs(r,0)
-            if board[r][cols-1] == "O":
-                dfs(r,cols-1)
-
-        for c in range(cols):
-            if board[0][c] == "O":
-                dfs(0,c)
-            if board[rows-1][c] == "O":
-                dfs(rows-1,c)
+            if r < 0 or c < 0 or r >= ROWS or c >= COLS or (r,c) in visited or board[r][c] != 'O':
+                return
+            visited.add((r,c))
+            board[r][c] = 'T'
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
         
-        for r in range(rows):
-            for c in range(cols):
-                if board[r][c] == "O":
-                    board[r][c] = "X"
+        for r in range(ROWS):
+            dfs(r, 0)
+            dfs(r, COLS - 1)
         
-        for r in range(rows):
-            for c in range(cols):
-                if board[r][c] == "T":
-                    board[r][c] = "O"
-
+        for c in range(COLS):
+            dfs(0, c)
+            dfs(ROWS - 1, c)
+        
+        #2. Capture surrounded region (O => X)
+        for r in range(ROWS):
+            for c in range(COLS):
+                if board[r][c] == 'O':
+                    board[r][c] = 'X'
+        
+        #3. Uncapture unsurrounded region (T => O)
+        for r in range(ROWS):
+            for c in range(COLS):
+                if board[r][c] == 'T':
+                    board[r][c] = 'O'
 
 
         """
-        :type board: List[List[str]]
-        :rtype: None Do not return anything, modify board in-place instead.
+        Do not return anything, modify board in-place instead.
         """
         
