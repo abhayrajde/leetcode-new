@@ -1,4 +1,4 @@
-class Solution(object):
+class Solution:
     def findOrder(self, numCourses, prerequisites):
         preMap = {c:[] for c in range(numCourses)}
         for crs,pre in prerequisites:
@@ -26,9 +26,5 @@ class Solution(object):
             if dfs(crs) == False:
                 return []
         return result
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: List[int]
-        """
+
         
