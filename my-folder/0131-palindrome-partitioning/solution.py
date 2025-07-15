@@ -1,26 +1,23 @@
-class Solution(object):
-    def partition(self, s):
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
         res = []
-        curr = []
-        def ispal(i,j):
-            temp = s[i:j+1]
-            if temp == temp[::-1]:
-                return True
-            return False
+        currPartition = []
         
-        def backtrack(ind):
-            if ind >= len(s):
-                res.append(curr[:])
+        def dfs(i):
+            if i >= len(s):
+                res.append(currPartition[:])
                 return
-            for j in range(ind,len(s)):
-                if ispal(ind,j):
-                    curr.append(s[ind:j+1])
-                    backtrack(j+1)
-                    curr.pop()
-        backtrack(0)
+                
+            for j in range(i, len(s)):
+                if self.isPali(s[i:j+1]):
+                    currPartition.append(s[i:j+1])
+                    dfs(j + 1)
+                    currPartition.pop()
+        dfs(0)
         return res
-        """
-        :type s: str
-        :rtype: List[List[str]]
-        """
+
+    def isPali(self, s):
+        if s == s[::-1]:
+            return True
+        return False
         
