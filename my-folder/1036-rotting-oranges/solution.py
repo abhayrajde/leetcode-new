@@ -1,41 +1,33 @@
-class Solution(object):
-    def orangesRotting(self, grid):
-        rows = len(grid)
-        cols = len(grid[0])
-        q = deque()
-        visited = set()
-        fresh = 0
-        time = 0
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        ROWS = len(grid)
+        COLS = len(grid[0])
 
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == 2:
-                    q.append((r,c))
+        q = deque()
+        time, fresh = 0, 0
+
+        for r in range(ROWS):
+            for c in range(COLS):
                 if grid[r][c] == 1:
                     fresh += 1
-                    
-        if fresh == 0:
-            return time
+                elif grid[r][c] == 2:
+                    q.append((r,c))
 
-        while(q and fresh > 0):
+        directions = [[1,0], [-1,0], [0,1], [0,-1]]
+        while q and fresh > 0:
             for _ in range(len(q)):
                 r, c = q.popleft()
-                if( r>= 0 and r < rows and c >= 0 and c < cols and (r,c) not in visited and grid[r][c] != 0):
-                    visited.add((r,c))
-                    q.append((r+1,c))
-                    q.append((r-1,c))
-                    q.append((r,c+1))
-                    q.append((r,c-1))
 
-                    if grid[r][c] == 1:
-                        fresh -= 1
+                for dr, dc in directions:
+                    row, col = r + dr, c + dc
+
+                    if row < 0 or col < 0 or row >= ROWS or col >= COLS or grid[row][col] != 1:
+                        continue
+                    
+                    grid[row][col] = 2
+                    q.append((row,col))
+                    fresh -= 1
             time += 1
-        if(fresh == 0):
-            return time - 1
-        return -1
+        return time if fresh == 0 else -1
 
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        
+
