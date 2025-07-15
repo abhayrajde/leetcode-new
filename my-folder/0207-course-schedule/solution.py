@@ -1,33 +1,27 @@
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        prereq = {i:[] for i in range(numCourses)}
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        preMap = {i: [] for i in range(numCourses)}
+
         for crs, pre in prerequisites:
-            prereq[crs].append(pre)
-        # print(prereq)
+            preMap[crs].append(pre)
+
         visited = set()
 
         def dfs(crs):
-            # Base Case Scenarios:
+            # Base Cases
             if crs in visited:
                 return False
-            if prereq[crs] == []:
+            
+            if preMap[crs] == []:
                 return True
-
+            
             visited.add(crs)
-            for pre in prereq[crs]:
+            for pre in preMap[crs]:
                 if not dfs(pre): return False
             visited.remove(crs)
-            prereq[crs] = []
+            preMap[crs] = []
             return True
-        
+
         for crs in range(numCourses):
             if not dfs(crs): return False
         return True
-
-
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
