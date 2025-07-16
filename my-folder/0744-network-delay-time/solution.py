@@ -1,35 +1,22 @@
-class Solution(object):
-    def networkDelayTime(self, times, n, k):
-        edges = collections.defaultdict(list)
-        for u, v, w in times:
-            edges[u].append((v, w))
-#         edges = {}
-#         for u,v,w in times:
-#             if(u not in edges):
-#                 edges[u] = []
-#             edges[u].append([v,w])
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        adj = {i:[] for i in range(n+1)}
+
+        for src, dest, cost in times:
+            adj[src].append((dest, cost))
+
+        res = 0
+        minHeap = [(0, k)]
+        visited = set()
         
-        minheap = [(0,k)]
-        visit = set()
-        time = 0
-        while(minheap):
-            w1, n1 = heapq.heappop(minheap)
-            if(n1 in visit):
+        while minHeap:
+            cost1, node1 = heapq.heappop(minHeap)
+            if node1 in visited:
                 continue
-            visit.add(n1)
-            time = max(time,w1)
-            
-            for n2, w2 in edges[n1]:
-                if n2 not in visit:
-                    heapq.heappush(minheap,(w1+w2, n2))
-        if(len(visit) == n):
-            return time
-        else:
-            return(-1)
-        """
-        :type times: List[List[int]]
-        :type n: int
-        :type k: int
-        :rtype: int
-        """
-        
+            visited.add(node1)
+            res = max(res, cost1)
+
+            for node2, cost2 in adj[node1]:
+                if node2 not in visited:
+                    heapq.heappush(minHeap, (cost1 + cost2, node2))
+        return res if len(visited) == n else -1 
