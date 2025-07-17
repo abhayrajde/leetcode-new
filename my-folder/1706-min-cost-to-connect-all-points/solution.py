@@ -1,35 +1,28 @@
-class Solution(object):
-    def minCostConnectPoints(self, points):
-        n = len(points)
-        adj = {} # i : list of[cost,node]
-        for i in range(n):
-            adj[i] = []
-        
-        for i in range(n):
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        N = len(points)
+
+        adj = { i:[] for i in range(N) }
+
+        for i in range(N):
             x1, y1 = points[i]
-            for j in range(i+1,n):
+            for j in range(i+1, N):
                 x2, y2 = points[j]
-                dist = abs(x1-x2) + abs(y1-y2)
-                adj[i].append([dist,j])
-                adj[j].append([dist,i])
+                distance = abs(x1 - x2) + abs(y1 - y2)
+                adj[i].append([distance, j])
+                adj[j].append([distance, i])
         
-        #Prim's
+        #Prim's Algo
         res = 0
-        visit = set()
-        minh = [[0,0]] # [cost,point] --> so that we will start from the zero'th point in adj
-        while(len(visit) < n):
-            cost, i = heapq.heappop(minh)
-            if i in visit:
+        minH = [(0,0)]
+        visited = set()
+        while len(visited) < N:
+            cost, i = heapq.heappop(minH)
+            if i in visited:
                 continue
+            visited.add(i)
             res += cost
-            visit.add(i)
-            for neicost,nei in adj[i]:
-                heapq.heappush(minh,[neicost,nei])
-        return(res)
-            
-            
-        """
-        :type points: List[List[int]]
-        :rtype: int
-        """
-        
+            for neiCost, nei in adj[i]:
+                if nei not in visited:
+                    heapq.heappush(minH, (neiCost, nei))
+        return res
