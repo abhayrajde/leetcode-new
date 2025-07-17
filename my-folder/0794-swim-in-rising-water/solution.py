@@ -1,42 +1,19 @@
-class Solution(object):
-    def swimInWater(self, grid):
-        n = len(grid)
-        visit = set()
-        visit.add((0,0))
-        minh = [[grid[0][0],0,0]]
-        
-        while minh:
-            t,r,c = heapq.heappop(minh)
-            
-            if(r == n-1 and c == n-1):
-                return t
-            
-            #Down
-            if(r+1 < n and ((r+1,c) not in visit)):
-                heapq.heappush(minh, [max(grid[r+1][c],t),r+1,c])
-                visit.add((r+1,c))
-            
-            #Up
-            if(r-1 >= 0 and ((r-1,c) not in visit)):
-                heapq.heappush(minh, [max(grid[r-1][c],t),r-1,c])
-                visit.add((r-1,c))
-                
-            #Right
-            if(c+1 < n and ((r,c+1) not in visit)):
-                heapq.heappush(minh, [max(grid[r][c+1],t),r,c+1])
-                visit.add((r,c+1))
-            
-            #Left
-            if(c-1 >= 0 and ((r,c-1) not in visit)):
-                heapq.heappush(minh, [max(grid[r][c-1],t),r,c-1])
-                visit.add((r,c-1))
-            
-                
-                
-            
-        
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        #Dijkstra's algo - bfs + minheap
+        N = len(grid)
+        visited = set()
+        minH = [(grid[0][0], 0, 0)]
+        directions = [[0, 1], [0, -1], [1,0], [-1, 0]]
+
+        visited.add((0,0))
+        while minH:
+            time, r, c = heapq.heappop(minH)
+            if r == N - 1 and c == N - 1:
+                return time
+            for dr, dc in directions:
+                neiR, neiC = dr + r, dc + c
+                if neiR < 0 or neiC < 0 or neiR >= N or neiC >= N or (neiR, neiC) in visited:
+                    continue
+                visited.add((neiR, neiC))
+                heapq.heappush(minH, (max(time,grid[neiR][neiC]), neiR, neiC))
