@@ -1,5 +1,6 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
+        #this is only bottum up
         @lru_cache(maxsize=None)
         def traverse(i):
             if i == len(s): return 1
