@@ -1,41 +1,48 @@
-class Solution(object):
-    def findItinerary(self, tickets):
+# class Solution:
+#     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+#         adj = { src: [] for src, dest in tickets }
+
+#         tickets.sort()
+
+#         for src, dest in tickets:
+#             adj[src].append(dest)
         
-        adj = {src:[] for src,dst in tickets}
+#         # for places in adj.keys():
+#         #     adj[places].sort()
         
-        #sort first to get all the itenary in lexographical order
-        #so that while adding the routes in dictionary it will be added itself in lexographical order.
-        tickets.sort()
-        
-        #populate the adjescency dictionary
-        for src, dst in tickets:
+#         res = ["JFK"]
+
+#         def dfs(src):
+#             if len(res) == len(tickets) + 1:
+#                 return True
+#             if src not in adj:
+#                 return False
+            
+#             temp = list(adj[src])
+#             for i, dest in enumerate(temp):
+#                 adj[src].pop(i)
+#                 res.append(dest)
+                
+#                 if dfs(dest): return True
+#                 # if dfs returned False - backtrack our decision
+#                 adj[src].insert(i, dest)
+#                 res.pop()
+#             return False
+#         dfs('JFK')
+#         return res
+
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        adj = defaultdict(list)
+        for src, dst in sorted(tickets)[::-1]:
             adj[src].append(dst)
-        
-        res = ["JFK"]
+
+        res = []
         def dfs(src):
-            #if we get all the options + 1(JFK by default) in result then direct return
-            if len(res) == len(tickets)+1:
-                return True
+            while adj[src]:
+                dst = adj[src].pop()
+                dfs(dst)
+            res.append(src)
             
-            if src not in adj:
-                return False
-            
-            temp = list(adj[src])
-            for i,v in enumerate(temp):
-                res.append(v)
-                adj[src].pop(i)
-                if dfs(v):
-                    return True
-                adj[src].insert(i,v)
-                res.pop()
-            return False
-        
-        dfs("JFK")
-        return res
-            
-        
-        """
-        :type tickets: List[List[str]]
-        :rtype: List[str]
-        """
-        
+        dfs('JFK')
+        return res[::-1]
