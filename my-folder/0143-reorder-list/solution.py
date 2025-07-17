@@ -1,39 +1,37 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def reorderList(self, head):
-        slow = head
-        fast = head.next
-        # find the median
-        while(fast and fast.next):
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        # Concepts used: FTH algo + reverse | TC - O(N), SC - O(1)
+        # Find Middle
+        slow, fast = head, head.next
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-            
-        # Reverse the second part
+
+        # Reverse second half
         second = slow.next
-        prev = slow.next = None
-        while(second):
-            temp = second.next
-            second.next = prev
-            prev = second
-            second = temp
-        
-        
-        # Merge from both the sections
-        first = head
-        second = prev
-        while(second):
-            temp1,temp2 = first.next,second.next
+        slow.next = None
+        prev, curr = None, second
+        while curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+
+        # Merge two halfs
+        first, second = head, prev
+        while second:
+            temp1, temp2 = first.next, second.next
             first.next = second
             second.next = temp1
             first = temp1
             second = temp2
         
         """
-        :type head: ListNode
-        :rtype: None Do not return anything, modify head in-place instead.
+        Do not return anything, modify head in-place instead.
         """
         
