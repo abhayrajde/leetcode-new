@@ -1,35 +1,36 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def reverseKGroup(self, head, k):
-        count, node = 0, head
-        while(node and count < k):
-            node = node.next
-            count += 1
-        if(count < k):
-            return(head)
-        new_head, prev = self.reverse(head, count)
-        head.next = self.reverseKGroup(new_head, k)
-        return prev
-    
-    def reverse(self, head, count):
-        prev, curr = None, head
-        # count = 0
-        while(count > 0):
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
-            count-=1
-        return(curr, prev)
-                
-            
-        """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        dummy = ListNode(0, head)
+        prevGroup = dummy
+
+        while True:
+            kth = self.getKth(prevGroup, k)
+            if not kth:
+                break
+            nextGroup = kth.next
+
+            #reverse group
+            prev, curr = nextGroup, prevGroup.next #twist here is we are not setting prev to null
+
+            while curr != nextGroup:
+                temp = curr.next
+                curr.next = prev
+                prev = curr
+                curr = temp
+
+            temp = prevGroup.next
+            prevGroup.next = kth
+            prevGroup = temp
+        return dummy.next
+    def getKth(self, node, k):
+        curr = node
+        while curr and k > 0:
+            curr = curr.next
+            k -= 1
+        return curr
+
