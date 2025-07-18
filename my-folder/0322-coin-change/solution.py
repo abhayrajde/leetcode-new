@@ -1,18 +1,49 @@
-class Solution(object):
-    def coinChange(self, coins, amount):
-        dp = [amount+1] *(amount+1)
-        dp[amount] = 0
-        for i in range(amount-1,-1,-1):
-            for j in range(len(coins)):
-                if(i + coins[j] <=amount):
-                    dp[i] = min(dp[i],1+dp[i+coins[j]])
-        if(dp[0]>amount):
-            return(-1)
-        else:
-            return(dp[0])
-        """
-        :type coins: List[int]
-        :type amount: int
-        :rtype: int
-        """
-        
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # DP: memoization 
+        dp = [[-1] * (amount + 1) for i in range(len(coins))]
+        def dpmem(ind, target): # returns -> number of coins  
+            # Base Case
+            if ind == 0:
+                if target % coins[ind] == 0:
+                    return target // coins[ind]
+                return float('inf')
+            
+            if dp[ind][target] != -1:
+                return dp[ind][target]
+
+            notTake = 0 + dpmem(ind - 1, target)
+            
+            take = float('inf')
+            if coins[ind] <= target:
+                take = 1 + dpmem(ind, target - coins[ind])
+            
+            dp[ind][target] = min(notTake, take)
+            
+            return dp[ind][target]
+        cns = dpmem(len(coins) -1, amount)
+        return cns if cns != float('inf') else -1
+
+
+        # Recursion
+        def recursion(ind, target): # returns -> number of coins  
+            # Base Case
+            if ind == 0:
+                if target % coins[ind] == 0:
+                    return target // coins[ind]
+                return float('inf')
+
+            notTake = 0 + recursion(ind - 1, target)
+            
+            take = float('inf')
+            if coins[ind] <= target:
+                take = 1 + recursion(ind, target - coins[ind])
+            
+            return min(notTake, take)
+        # cns = recursion(len(coins) -1, amount)
+        # return cns if cns != float('inf') else -1
+
+
+
+
+
