@@ -1,65 +1,42 @@
-class Twitter(object):
+class Twitter:
 
     def __init__(self):
-        self.count = 0
-        self.tweetmap = defaultdict(list) # userId -> list of [count, tweetIds]
-        self.followmap = defaultdict(set) # userId -> set of followeeId
-        
+        self.timerCount = 0
+        self.tweetMap = defaultdict(list)
+        self.followMap = defaultdict(set)
 
-    def postTweet(self, userId, tweetId):
-        self.tweetmap[userId].append([self.count,tweetId])
-        self.count-=1
-        
-        """
-        :type userId: int
-        :type tweetId: int
-        :rtype: None
-        """
-        
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self.tweetMap[userId].append([self.timerCount, tweetId])
+        self.timerCount -= 1
 
-    def getNewsFeed(self, userId):
-        res = []  # ordered starting from recent
-        minheap = []
+    def getNewsFeed(self, userId: int) -> List[int]:
+        res = []
+        latestTweets = []
+
+        self.followMap[userId].add(userId)
+        for followeeId in self.followMap[userId]:
+            if followeeId in self.tweetMap:
+                index = len(self.tweetMap[followeeId]) - 1
+                timerCount, tweetId = self.tweetMap[followeeId][index]
+                latestTweets.append([timerCount, tweetId, followeeId, index - 1])
         
-        self.followmap[userId].add(userId)
-        for followeeId in self.followmap[userId]:
-            if(followeeId in self.tweetmap):
-                index = len(self.tweetmap[followeeId])-1
-                count, tweetId = self.tweetmap[followeeId][index]
-                minheap.append([count, tweetId, followeeId,index-1])
-        
-        heapq.heapify(minheap)
-        while(minheap and len(res)<10):
-            count,tweetId,followeeId,index = heapq.heappop(minheap)
+        heapq.heapify(latestTweets)
+        while latestTweets and len(res) < 10:
+            timerCount, tweetId, followeeId, index = heapq.heappop(latestTweets)
+            
             res.append(tweetId)
-            if(index>=0):
-                count, tweetId = self.tweetmap[followeeId][index]
-                heapq.heappush(minheap,[count, tweetId, followeeId, index-1])
-        return(res)
-                
-        """
-        :type userId: int
-        :rtype: List[int]
-        """
+            if index >= 0:
+                timerCount, tweetId = self.tweetMap[followeeId][index]
+                heapq.heappush(latestTweets, [timerCount, tweetId, followeeId, index - 1])
+        return res
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        self.followMap[followerId].add(followeeId)
         
 
-    def follow(self, followerId, followeeId):
-        self.followmap[followerId].add(followeeId)
-        """
-        :type followerId: int
-        :type followeeId: int
-        :rtype: None
-        """
-        
-
-    def unfollow(self, followerId, followeeId):
-        if(followeeId in self.followmap[followerId]):
-            self.followmap[followerId].remove(followeeId)
-        """
-        :type followerId: int
-        :type followeeId: int
-        :rtype: None
-        """
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        if followeeId in self.followMap[followerId]:
+            self.followMap[followerId].remove(followeeId)
         
 
 
