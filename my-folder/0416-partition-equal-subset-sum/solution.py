@@ -27,9 +27,9 @@ class Solution(object):
         if(totSum%2 != 0):
             return False
 
-        target = totSum/2
+        target = totSum//2
         dp = [[-1 for i in range(target+1)] for i in range(len(nums))]
-        return dpmem(len(nums)-1, totSum/2)
+        return dpmem(len(nums)-1, totSum//2)
 
     
         """
