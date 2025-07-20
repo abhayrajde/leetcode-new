@@ -1,40 +1,29 @@
-# take start and end  time in different list array
-# Sort both(start,end) list
-# If start time for a pointer is less than end time for the pointer in end list
-    # increment the room needed count,
-    # increment the start pointer
-    # store the res as max of count
-# Else -- the end pointer time is > start pointer time
-    # decrement the room needed count
-    # increment thr end time pointer
-# Return res
-class Solution(object):
-    def minMeetingRooms(self, intervals):
-        start = []
-        end = []
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         
-        for s,e in intervals:
-            start.append(s)
-            end.append(e)
-        
-        start = sorted(start)
-        end = sorted(end)
-        
-        res, count = 0, 0
+        start = sorted([i[0] for i in intervals])
+        end = sorted([i[1] for i in intervals])
+
+        res, rooms = 0, 0 
         s, e = 0, 0
-        while s < len(start):
+        while s < len(intervals):
             if start[s] < end[e]:
                 s += 1
-                count += 1
-                res = max(res, count)
+                rooms += 1
             else:
                 e += 1
-                count -= 1
-        return res
-                
-            
-        """
-        :type intervals: List[List[int]]
-        :rtype: int
-        """
-        
+                rooms -= 1
+            res = max(res, rooms)
+        return res 
+        # Wrong, failing 1 test case
+        # intervals.sort()
+
+        # rooms = 1
+        # prevEnd = intervals[0][1]
+        # for start, end in intervals[1:]:
+        #     if start < prevEnd:
+        #         rooms += 1
+        #         prevEnd = min(prevEnd, end)
+        #     else:
+        #         prevEnd = end
+        # return rooms
