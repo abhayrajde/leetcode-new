@@ -1,22 +1,19 @@
 class Solution(object):
     def uniquePaths(self, m, n):
-        # DP: Tabulation Approach
-        dp = [[0]*n for i in range (m)]
-        def dptab():
-            for i in range(m):
-                for j in range(n):
-                    # Base Case
-                    if (i == 0 and j == 0):
-                        dp[i][j] = 1
-                    else:
-                        up = left = 0
-                        if (j > 0):
-                            up = dp[i][j-1]
-                        if (i > 0):
-                            left = dp[i-1][j]
-                        dp[i][j] = up + left
-            return(dp[m-1][n-1])    
-        return dptab()
+        #DP: Tabulation - Bottom up approach
+        dp = [[0]*n for i in range(m)]
+        for r in range(m):
+            for c in range(n):
+                if r == 0 and c == 0:
+                    dp[r][c] = 1
+                else:
+                    up = left = 0
+                    if r > 0:
+                        up = dp[r-1][c]
+                    if c > 0:
+                        left = dp[r][c-1]
+                    dp[r][c] = up + left
+        return dp[m-1][n-1]
 
         # DP: Memoization Approach
         # dp = [[-1]*n for i in range(m)]
@@ -55,11 +52,3 @@ class Solution(object):
             #Step 3: Add all the solutions
             return (up + left)
         # return (recursion(m-1,n-1))
-
-
-        """
-        :type m: int
-        :type n: int
-        :rtype: int
-        """
-        
