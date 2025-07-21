@@ -1,48 +1,31 @@
-class TimeMap(object):
+class TimeMap:
 
     def __init__(self):
-        self.map = {} #key : [[value, timestamp]]
-        
-        
-    def set(self, key, value, timestamp):
-        if(key not in self.map):
-            self.map[key] = []
-        self.map[key].append([value,timestamp])
-        
-        """
-        :type key: str
-        :type value: str
-        :type timestamp: int
-        :rtype: None
-        """
+        self.hm = defaultdict(list)
         
 
-    def get(self, key, timestamp):
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.hm[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.hm:
+            return ""
+        
+        list1 = self.hm[key]
+        l, r = 0, len(list1) - 1
         res = ""
-        values = self.map.get(key, [])
-        
-        #Binary Search
-        
-        l = 0
-        r = len(values)-1
-        
-        while(l<=r):
-            m = (l+r)//2
-            if(values[m][1] == timestamp):
-                return(values[m][0])
-            elif(values[m][1]>timestamp):
-                r = m-1
+        while l <= r:
+            mid = (l + r) // 2
+            if list1[mid][0] == timestamp:
+                return list1[mid][1]
+
+            if timestamp < list1[mid][0]:
+                r = mid - 1
             else:
-                res = values[m][0]
-                l = m+1
-        return(res)
-        
-        """
-        :type key: str
-        :type timestamp: int
-        :rtype: str
-        """
-        
+                res = list1[mid][1]
+                l = mid + 1
+        return res
+
 
 
 # Your TimeMap object will be instantiated and called as such:
