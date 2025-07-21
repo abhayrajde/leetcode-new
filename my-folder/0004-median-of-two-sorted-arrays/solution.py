@@ -1,22 +1,32 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        combined = []
+        A, B = nums1, nums2
+        total = len(A) + len(B)
+        half = total // 2
 
-        while len(nums1) != 0 and len(nums2) != 0:
-
-            if nums1[0] < nums2[0]:
-                combined.append(nums1[0])
-                del nums1[0]
-            else:
-                combined.append(nums2[0])
-                del nums2[0]
+        if len(B) < len(A):
+            A, B = B, A
         
-        if nums1: combined += nums1
-        if nums2: combined += nums2
+        l, r = 0, len(A) - 1
+        while True:
+            i = (l + r) // 2
+            j = half - i - 2
 
-        n = len(combined)
-        if n % 2 == 0:
-            return (combined[(n // 2) - 1] + combined[n // 2]) /  2
-        else:
-            return combined[n // 2]
+            Aleft = A[i] if i >= 0 else float('-inf')
+            Aright = A[i + 1] if (i + 1) < len(A) else float('inf')
+            Bleft = B[j] if j >= 0 else float('-inf')
+            Bright = B[j + 1] if (j + 1) < len(B) else float('inf')
+
+            # partition is correct
+            if Aleft <= Bright and Bleft <= Aright:
+                #even 
+                if total % 2 == 0:
+                    return (max(Aleft, Bleft) + min(Aright, Bright)) / 2
+                else:
+                    return min(Aright, Bright)
+            # partition is wrong
+            elif Aleft > Bright:
+                r = i - 1
+            else:
+                l = i + 1
 
