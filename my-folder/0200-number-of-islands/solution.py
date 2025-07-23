@@ -6,10 +6,10 @@ class Solution:
         visited = set()
         islands = 0
 
-        def dfs(r,c):
-            if r < 0 or c < 0 or r >= ROWS or c >= COLS or grid[r][c] == "0" or (r,c) in visited:
+        def dfs(r, c):
+            if r < 0 or c < 0 or r >= ROWS or c >= COLS or (r,c) in visited or grid[r][c] == '0':
                 return
-            
+
             visited.add((r,c))
             dfs(r+1,c)
             dfs(r-1,c)
