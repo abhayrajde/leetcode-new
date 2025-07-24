@@ -1,24 +1,18 @@
-class Solution(object):
-    def trap(self, height):
-        l, r = 0, len(height)-1
-        leftmax = height[l]
-        rightmax = height[r]
-        res = 0 
-        
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        # OPTIMIZED - TC: O(N), SC: 0(1)
+        l, r = 0, len(height) - 1
+        leftMax, rightMax = height[l], height[r]
+        res = 0
+
         while l < r:
-            if leftmax < rightmax:
+            if leftMax < rightMax:
                 l += 1
-                leftmax = max(leftmax, height[l])
-                res += leftmax - height[l]
-            
+                leftMax = max(leftMax, height[l])
+                res += leftMax - height[l]
+
             else:
                 r -= 1
-                rightmax = max(rightmax, height[r])
-                res += rightmax -height[r]
+                rightMax = max(rightMax, height[r])
+                res += rightMax - height[r]
         return res
-        
-        """
-        :type height: List[int]
-        :rtype: int
-        """
-        
