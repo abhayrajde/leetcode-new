@@ -29,4 +29,3 @@ class Solution:
                 r = i - 1
             else:
                 l = i + 1
-
