@@ -1,32 +1,24 @@
 class Solution:
     def reorganizeString(self, s: str) -> str:
-        counter = {}
-        max_count, letter = 0, ''
-
+        hm = {}
         for c in s:
-            if c in counter:
-                counter[c] += 1
-            else:
-                counter[c] = 1
-            if counter[c] > max_count:
-                max_count = counter[c]
-                letter = c
-            if max_count > (len(s) + 1) // 2: return ''
-        
-        if len(counter) == len(s): return s
+            hm[c] = 1 + hm.get(c,0)
+        maxHeap = [[-cnt, el] for el, cnt in hm.items()]
+        heapq.heapify(maxHeap)
 
-        output = [''] * len(s)
-        i = 0
-        while counter[letter] != 0:
-            output[i] = letter
-            i += 2
-            counter[letter] -= 1
-        
-        for c, count in counter.items():
-            while count > 0:
-                if i >= len(s):
-                    i = 1
-                output[i] = c
-                i += 2
-                count -= 1
-        return ''.join(output)
+        prev = None
+        res = ''
+        while maxHeap or prev:
+            # Base Case
+            if prev and not maxHeap: return ""
+            cnt, char =heapq.heappop(maxHeap)
+            res += char
+            cnt += 1
+
+            if prev:
+                heapq.heappush(maxHeap, prev)
+                prev = None
+            
+            if cnt < 0:
+                prev = [cnt, char]
+        return res
