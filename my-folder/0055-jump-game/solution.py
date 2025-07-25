@@ -28,27 +28,6 @@ class Solution:
 
         # return recursion(0)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # GOOD, BAD, UNKNOWN = 1, 0, -1
         # memo = [UNKNOWN] * len(nums)
         # memo[-1] = GOOD
