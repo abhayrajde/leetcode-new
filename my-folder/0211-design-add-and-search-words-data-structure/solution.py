@@ -1,52 +1,41 @@
-class TrieNode(object):
+class TrieNode:
     def __init__(self):
         self.children = {}
-        self.endofword = False
-        
-class WordDictionary(object):
+        self.endOfWord = False
+
+class WordDictionary:
 
     def __init__(self):
         self.root = TrieNode()
 
-    def addWord(self, word):
+    def addWord(self, word: str) -> None:
         curr = self.root
-        
-        for i in word:
-            if(i not in curr.children):
-                curr.children[i] = TrieNode()
-            curr = curr.children[i]
-        curr.endofword = True
-        
-        """
-        :type word: str
-        :rtype: None
-        """
-        
+        for c in word:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
+        curr.endOfWord = True
 
-    def search(self, word):
-        def dfs(j,root):
-            curr = root
 
-            for i in range(j,len(word)):
-                c = word[i]
-
-                if(c == "."):
+    def search(self, word: str) -> bool:
+        def dfs(ind, node):
+            curr = node 
+            for j in range(ind, len(word)):
+                c = word[j]
+                if c == '.':
                     for child in curr.children.values():
-                        if(dfs(i+1,child)):
-                            return(True)
-                    return(False)
-
+                        if dfs(j + 1, child):
+                            return True
+                    return False 
                 else:
-                    if(c not in curr.children):
-                        return(False)
+                    if c not in curr.children:
+                        return False
                     curr = curr.children[c]
-            return(curr.endofword)
-        return(dfs(0,self.root))
-        """
-        :type word: str
-        :rtype: bool
-        """
-        
+            return curr.endOfWord
+        return dfs(0, self.root)
+
+
+                
 
 
 # Your WordDictionary object will be instantiated and called as such:
