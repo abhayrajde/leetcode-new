@@ -1,16 +1,18 @@
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        if not nums: return 0
+        res = max(nums)
+        currMax, currMin = 1, 1
 
-        high = nums[0]
-        low = nums[0]
-        highest = high
-        
-        for num in nums[1:]:
-            temp = max(num, max(high * num, low * num))
-            low = min(num, min(high * num, low * num))
+        for n in nums:
+            if n == 0:
+                currMin, currMax = 1,1
+                continue
+            
+            temp1 = currMax * n
+            temp2 = currMin * n
 
-            high = temp
-            highest = max(high, highest)
-        
-        return highest
+            currMax = max(n, temp1, temp2)
+            currMin = min(n, temp1, temp2)
+            res = max(res, currMax)
+
+        return res
