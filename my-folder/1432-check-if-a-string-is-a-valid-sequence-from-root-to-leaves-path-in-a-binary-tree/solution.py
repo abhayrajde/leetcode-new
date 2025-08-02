@@ -1,26 +1,20 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution(object):
-    def isValidSequence(self, root, arr):
-        def dfs(node, count):
-            if not node or count >= len(arr):
+class Solution:
+    def isValidSequence(self, root: Optional[TreeNode], arr: List[int]) -> bool:
+        def dfs(node, ind):
+            if not node or ind >= len(arr) or node.val != arr[ind]:
                 return False
-            if node.val != arr[count]:
-                return False
-            if not node.left and not node.right and count == len(arr)-1:
+            if ind == len(arr) - 1 and not node.left and not node.right and node.val == arr[ind]:
                 return True
-            left = dfs(node.left, count+1)
-            right = dfs(node.right, count+1)
-            return left or right
-        return dfs(root,0)
+            
+            left = dfs(node.left, ind + 1)
+            right = dfs(node.right, ind + 1)
 
-        """
-        :type root: TreeNode
-        :type arr: List[int]
-        :rtype: bool
-        """
-        
+            return left or right
+        return dfs(root, 0)
+
