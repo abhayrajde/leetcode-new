@@ -1,41 +1,28 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution(object):
-    def pathSum(self, root, targetSum):
-        prevsum = collections.defaultdict(int)
-        prevsum[0] = 1
-        
-        res = [0]
-        def dfs(node,currsum):
-            
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        freq = {0:1}
+        self.res = 0
+        def dfs(node, prevSum):
             if not node:
-                return 0 
+                return 
             
-            currsum += node.val
+            currSum = prevSum + node.val
+            x = currSum - targetSum
             
-            if (currsum - targetSum) in prevsum and prevsum[currsum-targetSum]>0:
-                res[0]+=prevsum.get((currsum-targetSum),0)
-                
-            prevsum[currsum]+=1
+            if x in freq:
+                self.res += freq[x]
+            freq[currSum] = 1 + freq.get(currSum, 0)
             
-            dfs(node.left, currsum)
-            # prevsum[currsum]-=1
-            # currsum-=node.val
-            
-            dfs(node.right, currsum)
-            
-            prevsum[currsum]-=1
-            currsum-=node.val
-            
+            left = dfs(node.left, currSum)
+            right = dfs(node.right, currSum)
+            freq[currSum] -= 1
         dfs(root, 0)
-        return res[0]
-        """
-        :type root: TreeNode
-        :type targetSum: int
-        :rtype: int
-        """
-        
+        return self.res
+
+
