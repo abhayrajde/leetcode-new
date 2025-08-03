@@ -14,9 +14,10 @@ class Solution:
             nums[i], nums[j] = nums[j], nums[i]
         
         # Step 3: Reverse the elements from i + 1 to the end
-        left, right = i + 1, len(nums) - 1
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left += 1
-            right -= 1
+        nums[i+1:] = nums[i+1:][::-1]
+        # left, right = i + 1, len(nums) - 1
+        # while left < right:
+        #     nums[left], nums[right] = nums[right], nums[left]
+        #     left += 1
+        #     right -= 1
         
