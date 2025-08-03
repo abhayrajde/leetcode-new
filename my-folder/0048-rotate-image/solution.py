@@ -1,21 +1,27 @@
-class Solution(object):
-    def rotate(self, matrix):
-        #STEP 1: TRANSPOSE OF THE MATRIX
-        transposed = set()
-        for r in range(len(matrix)):
-            for c in range(len(matrix[0])):
-                if((r,c) not in transposed):
-                    matrix[r][c],matrix[c][r] = matrix[c][r],matrix[r][c]
-                    # transpose.add((r,c))
-                    transposed.add((c,r))
-        
-        #STEP 2: REVERSE THE MATRIX
-        for r in matrix:
-            r.reverse()
-        # matrix.reverse()
-        
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
         """
-        :type matrix: List[List[int]]
-        :rtype: None Do not return anything, modify matrix in-place instead.
+        Do not return anything, modify matrix in-place instead.
         """
-        
+        l, r = 0, len(matrix) - 1
+
+        while l < r:
+            for i in range(r - l):
+                top, bottom = l, r
+
+                # save the top-left in temp var
+                topLeft = matrix[top][l + i]
+
+                # move bottom-left to top-left
+                matrix[top][l + i] = matrix[bottom - i][l]
+
+                # move bottom-right to bottom-left
+                matrix[bottom - i][l] = matrix[bottom][r - i]
+
+                # move top-right to bottom-right
+                matrix[bottom][r - i] = matrix[top + i][r]
+
+                # move top-left to top-right
+                matrix[top + i][r] = topLeft    
+            r -= 1
+            l += 1
