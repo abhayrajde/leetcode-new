@@ -1,20 +1,14 @@
-class Solution(object):
-    def isValid(self, s):
-        hm = { '}': '{', ')': '(', ']': '['}
-        # open_brackets = set('{', '[', '(')
+class Solution:
+    def isValid(self, s: str) -> bool:
         stack = []
-
+        hm = {')': '(', '}': '{', ']': '['}
         for i in range(len(s)):
-            if s[i] in hm:
-                if not stack or stack[-1] != hm[s[i]]:
-                    return False
-                else:
-                    stack.pop()
-            else:
+            if s[i] not in hm:
                 stack.append(s[i])
-        return True if not stack else False
-        """
-        :type s: str
-        :rtype: bool
-        """
-        
+            else:
+                if stack and stack[-1] == hm[s[i]]:
+                    stack.pop()
+                else:
+                    return False
+        return stack == []
+            
