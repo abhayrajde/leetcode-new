@@ -6,24 +6,22 @@
 #         self.right = right
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        
-        def traverse(node, r, c):
-            nonlocal cache
+        hm = defaultdict(list)
+        def dfs(node, r, c):
             if not node:
-                return
-            if c in cache:
-                cache[c].append((r, node.val))
-            else:
-                cache[c] = [(r, node.val)]
-            traverse(node.left, r+1, c-1)
-            traverse(node.right, r+1, c+1)
+                return 
+            
+            left = dfs(node.left, r + 1, c - 1)
+            right = dfs(node.right, r + 1, c + 1)
+            hm[c].append((r, node.val))
+        dfs(root, 0, 0)
+        res = []
+        for c in sorted(hm.keys()):
+            colEl = []
+            hm[c].sort()
+            for r, val in hm[c]:
+                colEl.append(val)
+            res.append(colEl)
+        return res
 
-        cache = {}
-        traverse(root, 0, 0)
-        output = []
-        for c in sorted(cache.keys()):
-            sec = []
-            for a, b in sorted(cache[c], key=lambda x:(x[0], x[1])):
-                sec.append(b)
-            output.append(sec)
-        return output
+
