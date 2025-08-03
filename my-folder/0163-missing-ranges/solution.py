@@ -2,14 +2,14 @@ class Solution:
     def findMissingRanges(self, nums: List[int], lower: int, upper: int) -> List[List[int]]:
         if lower == upper and len(nums) == 1:
             return []
-        
-        output = []
-        
+
+        res = []
         for n in nums:
             if lower < n:
-                output.append([lower, n - 1])
-            
+                res.append([lower, n - 1])
             lower = n + 1
         if lower <= upper:
-            output.append([lower, upper])
-        return output
+            res.append([lower, upper])
+        return res
+
+
