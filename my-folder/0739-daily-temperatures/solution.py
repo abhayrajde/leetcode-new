@@ -1,16 +1,12 @@
-class Solution(object):
-    def dailyTemperatures(self, temperatures):
-        res = [0] * len(temperatures)
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # monotonic stack - high to low - decreasing order
         stack = []
-
-        for i, t in enumerate(temperatures):
-            while stack and t > stack[-1][0]:
-                stackT, stackIndex = stack.pop()
-                res[stackIndex] = i - stackIndex
-            stack.append([t, i])
+        res = [0] * len(temperatures)
+        for i in range(len(temperatures)):
+            while stack and stack[-1][0] < temperatures[i]:
+                temp, ind = stack.pop()
+                res[ind] = i - ind
+            stack.append([temperatures[i], i])
+                
         return res
-        """
-        :type temperatures: List[int]
-        :rtype: List[int]
-        """
-        
