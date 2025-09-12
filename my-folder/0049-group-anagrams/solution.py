@@ -12,7 +12,7 @@ class Solution:
         # OPTION 2
         # TC: O(N*W) - n = total words, w = avg len of the word
         groups = defaultdict(list)
-
+        
         for s in strs:
 
             count = [0] * 26    # as we know there will be only 26 characters lowercase(a-z)
