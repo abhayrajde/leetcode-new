@@ -1,21 +1,14 @@
-class Solution(object):
-    def isPalindrome(self, s):
-        newStr = ""
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        contString = ''
 
-        for c in s:
-            if c.isalnum():
-                newStr += c.lower()
+        for i in range(len(s)):
+            if s[i].isalnum():
+                contString += s[i].lower()
         
-        l = 0
-        r = len(newStr) - 1
+        l, r = 0, len(contString)-1
         while l <= r:
-            if newStr[l] != newStr[r]:
-                return False
+            if contString[l] != contString[r]: return False
             l += 1
             r -= 1
         return True
-        """
-        :type s: str
-        :rtype: bool
-        """
-        
