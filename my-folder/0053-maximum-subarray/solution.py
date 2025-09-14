@@ -3,6 +3,31 @@ class Solution:
         maxSum = nums[0]
         currSum = 0
 
+        for r in range(len(nums)):
+            if currSum < 0:
+                currSum = 0
+            currSum += nums[r]
+            maxSum = max(maxSum, currSum)
+        return maxSum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        maxSum = nums[0]
+        currSum = 0
+
         for i in range(len(nums)):
             if currSum < 0:
                 currSum = 0
