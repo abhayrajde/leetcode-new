@@ -1,5 +1,30 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        # DP: Tabulation - Space Optimized
+        def dptab(nums):
+            prev2, prev = 0, nums[0]
+            for i in range(1, len(nums)):
+                pick = nums[i] + prev2
+                notPick = prev
+
+                curr = max(pick, notPick)
+
+                prev2, prev = prev, curr
+            return prev
+        
+        #Driver Code
+        if len(nums) < 2:
+            return nums[0]
+            
+        # Exclude first element
+        nums1 = nums[1:]
+        
+        # Exclude last element
+        nums2 = nums[:len(nums)-1]
+        return max(dptab(nums1), dptab(nums2))
+        
+        #--------------------------------------
+
         # DP: Memoization
         def dpmem(ind, numList):
             if ind < 0:
