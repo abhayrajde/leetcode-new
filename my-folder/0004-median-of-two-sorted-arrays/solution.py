@@ -1,5 +1,11 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        # A = [1,2,3,4,5] 
+        #          ^
+        # B = [2,3,4,5,6,7]
+        #        ^
+        # AB = [1,2,2,3,3,4,4,5,5,6,7] -> 4(tot element - odd)
+
         A, B = nums1, nums2
         total = len(A) + len(B)
         half = total // 2
