@@ -1,22 +1,13 @@
-class Solution(object):
-    def removeElement(self, nums, val):
-        i = 0               # this pointer will keep track of proper sequence
-        j = len(nums)-1
-        count = 0
-        while(i<=j):
-            if(nums[i] != val):
-                i+=1
-                
-                
-            elif(nums[i] == val):
-                nums[i],nums[j] = nums[j],nums[i]
-                j-=1
-        return(i)
-                
-        
-        """
-        :type nums: List[int]
-        :type val: int
-        :rtype: int
-        """
-        
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+          
+        l, r = 0, len(nums)-1
+        while l <= r:
+            if nums[l] == val:
+                nums[l], nums[r] = nums[r], '_'
+                r -= 1
+            else:
+                l += 1
+        return l
+
+
