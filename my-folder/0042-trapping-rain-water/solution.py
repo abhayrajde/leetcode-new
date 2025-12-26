@@ -1,5 +1,5 @@
 class Solution:
-    def trap(self, height: List[int]) -> int:
+    def trap(self, height: List[int]) -> int:       
         # OPTIMIZED - TC: O(N), SC: 0(1)
         l, r = 0, len(height) - 1
         leftMax, rightMax = height[l], height[r]
