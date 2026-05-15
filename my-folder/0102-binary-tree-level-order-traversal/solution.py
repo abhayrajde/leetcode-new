@@ -9,18 +9,17 @@ class Solution:
         if not root:
             return []
         q = deque([root])
+
         res = []
+
         while q:
-            currLevelEl = []
+            level = []
             for _ in range(len(q)):
                 curr = q.popleft()
-                
                 if curr.left:
                     q.append(curr.left)
                 if curr.right:
                     q.append(curr.right)
-                currLevelEl.append(curr.val)
-                
-            if currLevelEl:
-                res.append(currLevelEl)
+                level.append(curr.val)
+            res.append(level)
         return res
