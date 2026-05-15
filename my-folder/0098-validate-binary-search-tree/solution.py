@@ -4,17 +4,17 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        def valid(node, left, right):
+        def dfs(node, left, right):
             if not node:
                 return True
-            if not (left < node.val < right):
+
+            if not left < node.val < right:
                 return False
+            
+            left = dfs(node.left, left, node.val)
+            right = dfs(node.right, node.val, right)
 
-            return valid(node.left, left, node.val) and valid(
-                node.right, node.val, right
-            )
-
-        return valid(root, float("-inf"), float("inf"))
+            return left and right
+        return dfs(root, -float("inf"), float("inf"))
