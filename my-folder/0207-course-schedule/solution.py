@@ -1,24 +1,21 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         prereq = defaultdict(list)
-
         for crs, pre in prerequisites:
             prereq[crs].append(pre)
-
-        visited = set()
-
+        
+        cycle = set()
         def dfs(crs):
-            # Base Case
             if prereq[crs] == []:
                 return True
 
-            if crs in visited:
+            if crs in cycle:
                 return False
 
-            visited.add(crs)
+            cycle.add(crs)
             for pre in prereq[crs]:
                 if not dfs(pre): return False
-            visited.remove(crs)
+            cycle.remove(crs)
             prereq[crs] = []
             return True
 
@@ -26,7 +23,5 @@ class Solution:
             if not dfs(crs):
                 return False
         return True
-        
-
-
+                
 
