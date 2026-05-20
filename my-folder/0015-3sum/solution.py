@@ -1,21 +1,35 @@
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        res = []
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
         nums.sort()
+        
+        n = len(nums)
+        result = []
 
-        for i, a in enumerate(nums):
-            if i > 0 and a == nums[i - 1]:
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i-1]:
                 continue
-            l, r = i + 1, len(nums) - 1
-            while l < r:
-                threeSum = a + nums[l] + nums[r]
-                if threeSum > 0:
-                    r -= 1
-                elif threeSum < 0:
-                    l += 1
+
+            j = i + 1
+            k = n - 1
+
+            while j < k:
+                curr_sum = nums[i] + nums[j] + nums[k]
+                
+                if curr_sum == 0:
+                    result.append([nums[i], nums[j], nums[k]])
+                    while j < k and nums[j] == nums[j + 1]:
+                        j += 1
+                    while j < k and nums[k] == nums[k - 1]:
+                        k -= 1
+                    j += 1
+                    k -= 1
+                elif curr_sum < 0:
+                    j += 1
                 else:
-                    res.append([a, nums[l], nums[r]])
-                    l += 1
-                    while nums[l] == nums[l - 1] and l < r:
-                        l += 1
-        return res
+                    k -= 1
+        return result
+
+
+
+            
+
