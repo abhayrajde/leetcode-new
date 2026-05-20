@@ -1,21 +1,14 @@
-class Solution(object):
-    def candy(self, ratings):
-        lr = [1]*len(ratings)
-        rl = [1]*len(ratings)
-        # tot = [1]*len(ratings)
-        for i in range(1,len(ratings)):
-            if(ratings[i]>ratings[i-1]):
-                lr[i] = 1 + lr[i-1]
-        for i in range(len(ratings)-2,-1,-1):
-            if(ratings[i] > ratings[i+1]):
-                rl[i] = 1 + rl[i+1]
-        tot = 0
-        for i in range(len(ratings)):
-            tot += max(lr[i],rl[i])
-        return(tot)
-        
-        """
-        :type ratings: List[int]
-        :rtype: int
-        """
-        
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        n = len(ratings)
+        arr = [1] * n
+
+        for i in range(1, n):
+            if ratings[i - 1] < ratings[i]:
+                arr[i] = arr[i - 1] + 1
+
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                arr[i] = max(arr[i], arr[i + 1] + 1)
+
+        return sum(arr)
